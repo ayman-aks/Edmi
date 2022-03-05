@@ -48,6 +48,10 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.16</version>
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
 
     </dependencies>
 
@@ -63,7 +67,7 @@
         <repository>
             <id>internal.repo</id>
             <name>Internal repo</name>
-            <url>https://git.heroku.com/edmi-spring.git</url>
+            <url>file:///home/ayman/Desktop</url>
         </repository>
     </distributionManagement>
 
