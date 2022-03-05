@@ -63,7 +63,7 @@
         <repository>
             <id>internal.repo</id>
             <name>Internal repo</name>
-            <url>file:///home/ayman/Desktop</url>
+            <url>https://git.heroku.com/edmi-spring.git</url>
         </repository>
     </distributionManagement>
 
