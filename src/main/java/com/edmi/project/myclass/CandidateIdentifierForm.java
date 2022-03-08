@@ -21,7 +21,7 @@ public class CandidateIdentifierForm {
     @Column(nullable = false,unique = true)
     private String email;
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String homeAdress;
+    private String homeAddress;
     @Column(nullable = false)
     private String phoneNumber;
 
@@ -34,12 +34,12 @@ public class CandidateIdentifierForm {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getHomeAdress() {
-        return homeAdress;
+    public String getHomeAddress() {
+        return homeAddress;
     }
 
-    public void setHomeAdress(String homeAdress) {
-        this.homeAdress = homeAdress;
+    public void setHomeAddress(String homeAddress) {
+        this.homeAddress = homeAddress;
     }
 
     public String getName() {

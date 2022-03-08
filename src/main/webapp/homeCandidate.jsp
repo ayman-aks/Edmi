@@ -1,227 +1,244 @@
 <%@page pageEncoding="UTF-8" contentType="text/html" %>
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CANDIDATURE</title>
-    <!-- Normalize CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <!-- Bootstrap 4 CSS -->
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css'>
-    <!-- Telephone Input CSS -->
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/12.1.2/css/intlTelInput.css'>
-    <!-- Icons CSS -->
-    <link rel='stylesheet' href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
-    <!-- Nice Select CSS -->
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css'>
-    <!-- Style CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Demo CSS -->
-    <link rel="stylesheet" href="css/demo.css">
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<link rel="stylesheet" href="bootstrap.css">
 
-</head>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f1f1f1;
+    }
+
+    #regForm {
+        background-color: #ffffff;
+        margin: 100px auto;
+        font-family: Raleway;
+        padding: 40px;
+        width: 70%;
+        min-width: 300px;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    input {
+        padding: 10px;
+        width: 100%;
+        font-size: 17px;
+        font-family: Raleway;
+        border: 1px solid #aaaaaa;
+    }
+
+    input.invalid {
+        background-color: #ffdddd;
+    }
+
+    /* Hide all steps by default: */
+    .tab {
+        display: none;
+    }
+
+    button {
+        background-color: #04AA6D;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 17px;
+        font-family: Raleway;
+        cursor: pointer;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    #prevBtn {
+        background-color: #bbbbbb;
+    }
+
+    .step {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbbbbb;
+        border: none;
+        border-radius: 50%;
+        display: inline-block;
+        opacity: 0.5;
+    }
+
+    .step.active {
+        opacity: 1;
+    }
+
+    .step.finish {
+        background-color: #04AA6D;
+    }
+</style>
 <body>
-<header class="intro">
-    <h1>ECOLE DOCTORALE DE MATHEMATIQUE ET D'INFORMATIQUE </h1>
-    <p> FORMULAIRE DE CANDIDATURE.</p>
+<br><br><br>
+<h1 class="container">ECOLE DOCTORALE DE MATHEMATIQUE ET D'INFORMATIQUE</h1>
+
+<form id="regForm" action="" method="">
+    <h1>FORMULAIRE DE CANDIDATURE:</h1><br><br>
+    <div class="tab">
+        <h2 class="container-fluid">identification du candidat:</h2>
+
+        Nom:
+        <p><input  type="text" placeholder="nom"  oninput="this.className = ''" name="name" value="${candidateIdentifier.get(0).name}" disabled></p>
+        Nom d'epouse:
+        <p><input type="text" placeholder="nom"  oninput="this.className = ''" value="" name="nameWife"></p>
 
 
-</header>
+        Prenom:
+        <p><input type="text" placeholder="prenom" oninput="this.className = ''" name="surname" value="${candidateIdentifier.get(0).surname}" disabled></p>
+        Addresse domicile:
+        <p><input type="text" placeholder="addresse" oninput="this.className = ''" value="" name="homeAddress" value=""></p>
+        Telephone:
+        <p><input type="tel" placeholder="+221...." oninput="this.className = ''" value="" name="phoneNumber"></p>
+        Email
+        <p><input placeholder="use@mail.com" oninput="this.className = ''" name="email" value="${candidateIdentifier.get(0).email}" disabled></p>
 
-<main class="container-fluid w-30">
-    <article>
+    </div>
 
-        <!-- Start Multiform HTML -->
-        <section class="multi_step_form ">
-            <form id="msform" method="POST" name="form" action="homeCandidateForm">
-                <!-- Tittle -->
-                <div class="tittle">
-                    <h2> Processus de candidature</h2>
-                    <p>Veuillez completer tous les champs</p>
-                </div>
-                <!-- progressbar -->
-                <ul id="progressbar">
-                    <li class="active">INFORMATIONS DU CANDIDAT</li>
-                    <li>CURSUS UNIVERSITAIRE DU CANDIDAT</li>
-                    <li>DOCTORAT AUQUEL LE CANDIDAT  DEMANDE SON ADMISSION </li>
-                    <li>THÈSE EN COTUTELLE</li>
-                </ul>
-                <!-- fieldsets -->
-                <fieldset>
-                    <h3>remplissez les champs suivants</h3>
-                    <div class="form-column">
-                        <center>
-                            <div class="form-group col-md-6">
-                                <label for="name">NOM:</label>
-                                <input type="text"  class="form-control" disabled value="${candidateIdentifier.get(0).name}" name="myName" placeholder="nom" required>
-
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="surname">NOM D'ÉPOUSE:</label>
-                                <input type="text" class="form-control" name="nameWife" value="" placeholder="nom d'épouse" required>
-
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="surname">PRENOM:</label>
-                                <input type="text" class="form-control" disabled name="surname" value="${candidateIdentifier.get(0).surname}" placeholder="prenom" required>
-
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="surname">ADDRESSE DOMICILE:</label>
-                                <input type="text" class="form-control" name="homeAdress"  value="" placeholder="adresse domicile" required>
-
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="surname">TELEPHONE:</label>
-                                <input type="tel" id="phone" class="form-control" name="phoneNumber" value="" placeholder="numero de telephone" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="surname">EMAIL:</label>
-                                <input type="email" class="form-control" name="email" disabled value="${candidateIdentifier.get(0).email}" placeholder="user@gmail.com" required>
-
-                            </div>
-
-                    </div>
-
-                    </center>
-                    </div>
+    <div class="tab">
+        <h2 class="container-fluid">CURSUS UNIVERSITAIRE DU CANDIDAT:</h2>
+        diplome d'acces:
+        <p><input type="text" placeholder="diplome" oninput="this.className = ''" name="accessDiploma" value=""></p>
+        Specialite:
+        <p><input type="text" placeholder="specialité" oninput="this.className = ''" name="speciality" value=""></p>
+        Université ayant delivre le diplome:
+        <p><input type="text" placeholder="universite" oninput="this.className = ''" name="university" value=""></p>
+        Pays:
+        <p><input placeholder="pays" oninput="this.className = ''" name="country" value=""></p>
+        Lieu d'obtention du  diplome:
+        <p><input type="text" placeholder="lieu " oninput="this.className = ''" name="placeDiploma" value=""></p>
+        date d'obtention du diplome:
+        <p><input type="date" placeholder="date" oninput="this.className = ''" name="dateDiploma" value=""></p>
+        Mention:
+        <p><input type="text" placeholder="mention" oninput="this.className = ''" name="mention" value=""></p>
+    </div>
+    <div class="tab">
+        <h2 class="container-fluid">DOCTORAT AUQUEL LE CANDIDAT DEMANDE SON ADMISSION:</h2>
+        intitulé du doctorat:
+        <p><input type="text" placeholder="intitulé" oninput="this.className = ''" name="entitled" value=""></p>
+        Etablissement de ratachement du doctorat:
+        <p><input type="text" placeholder="etablissement" oninput="this.className = ''" name="institute" value=""></p>
+        Ecole doctorale
+        <p><input placeholder="edmi" oninput="this.className = ''" name="phdSchool" value="EDMI" disabled></p>
+        intitule et addresse du laboratoire d'acceuil:
+        <p><input placeholder="addresse du laboratoire" oninput="this.className = ''" name="nameAdressLaboratory" value="" ></p>
+        Sujet de these:
+        <p><input placeholder="Sujet de these" oninput="this.className = ''" name="topicPhd" value="" ></p>
 
 
+    </div>
+    <div class="tab">
+        <h2 class="container-fluid">THESE EN COTUTELLE:</h2>
+        Nom et addresse de l'etablissement universitaire partenaire:
+        <p><input type="text" placeholder="nom  addresse" oninput="this.className = ''" value="" name="nameAdressUniversity"></p>
+        Nom et prenoms du responsable de la formation doctorale dans l'etablissement partenaire:
+        <p><input placeholder="nom prenom" oninput="this.className = ''" name="nameSurnameManagerFormation" value="" type="text"></p>
+        Nom,prenoms et grade du Directeur de these dans l'etablissement partenaire:
+        <p><input placeholder="nom prenom" oninput="this.className = ''" name="nameSurnameManagerThesis" type="text"></p>
 
-                    <button type="button" class="action-button previous_button">Back</button>
-                    <button type="button" class="next action-button">Continue</button>
-                </fieldset>
-                <fieldset>
-                    <h3>CURSUS UNIVERSITAIRE DU CANDIDAT</h3>
-                    <div class="form-column">
-                        <center>
-                            <div class="form-group col-md-6">
-                                <label for="name">DIPLOME D'ACCES:</label>
-                                <input type="text"  class="form-control" name="accessDiploma" placeholder="diplome d'acces" required>
+    </div>
+    <div style="overflow:auto;">
+        <div style="float:right;">
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+            <button type="button" id="nextBtn" class="btn-primary" onclick="nextPrev(1)">Next</button>
+        </div>
+    </div>
+    <!-- Circles which indicates the steps of the form: -->
+    <div style="text-align:center;margin-top:40px;">
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+    </div>
+</form>
 
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="surname">SPÉCIALITÉ:</label>
-                                <input type="text" class="form-control" name="speciality" placeholder="spécialité" required>
+<script>
+    var currentTab = 0; // Current tab is set to be the first tab (0)
+    showTab(currentTab); // Display the current tab
 
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="surname">UNIVERSITÉ AYANT DÉLIVRÉ LE DIPLOME:</label>
-                                <input type="text" class="form-control" name="university" placeholder="université" required>
+    function showTab(n) {
+        // This function will display the specified tab of the form...
+        var x = document.getElementsByClassName("tab");
+        x[n].style.display = "block";
+        //... and fix the Previous/Next buttons:
+        if (n == 0) {
+            document.getElementById("prevBtn").style.display = "none";
+        } else {
+            document.getElementById("prevBtn").style.display = "inline";
+        }
+        if (n == (x.length - 1)) {
+            document.getElementById("nextBtn").innerHTML = "Submit";
+        } else {
+            document.getElementById("nextBtn").innerHTML = "Next";
+        }
+        //... and run a function that will display the correct step indicator:
+        fixStepIndicator(n)
+    }
 
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="surname">PAYS:</label>
-                                <input type="text" class="form-control" name="country" placeholder="pays"required>
+    function nextPrev(n) {
+        // This function will figure out which tab to display
+        var x = document.getElementsByClassName("tab");
+        // Exit the function if any field in the current tab is invalid:
+        if (n == 1 && !validateForm()) return false;
+        // Hide the current tab:
+        x[currentTab].style.display = "none";
+        // Increase or decrease the current tab by 1:
+        currentTab = currentTab + n;
+        // if you have reached the end of the form...
+        if (currentTab >= x.length) {
+            // ... the form gets submitted:
+            document.getElementById("regForm").submit();
+            return false;
+        }
+        // Otherwise, display the correct tab:
+        showTab(currentTab);
+    }
 
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="surname">LIEU D'OBTENTION DE DIPLOME:</label>
-                                <input type="text"  class="form-control" name="placeDiploma" placeholder="lieu d'obtention du diplome" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="surname">DATE D'OBTENTION DE DIPLOME:</label>
-                                <input type="date"  class="form-control" name="dateDiploma" placeholder="dtae d'obtention du diplome" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="surname">MENTION:</label>
-                                <input type="text" class="form-control" name="mention" placeholder="mention" required>
+    function validateForm() {
+        // This function deals with validation of the form fields
+        var x, y, i, valid = true;
+        x = document.getElementsByClassName("tab");
+        y = x[currentTab].getElementsByTagName("input");
+        // A loop that checks every input field in the current tab:
+        for (i = 0; i < y.length; i++) {
+            // If a field is empty...
+            if (y[i].value == "") {
+                // add an "invalid" class to the field:
+                y[i].className += " invalid";
+                // and set the current valid status to false
+                valid = false;
+            }
+        }
+        // If the valid status is true, mark the step as finished and valid:
+        if (valid) {
+            document.getElementsByClassName("step")[currentTab].className += " finish";
+        }
+        return valid; // return the valid status
+    }
 
-                            </div>
-
-                    </div>
-
-                    </center>
-                    </div>
-
-                    <button type="button" class="action-button previous previous_button">Back</button>
-                    <button type="button" class="next action-button">Continue</button>
-                </fieldset>
-                <fieldset>
-                    <h3>DOCTORAT AUQUEL LE CANDIDAT DEMANDE SON ADMISSION</h3>
-                    <center>
-                        <div class="form-group col-md-6">
-                            <label for="name">INTITULÉ DU DOCTORAT</label>
-                            <input type="text"  class="form-control" name="entitled" placeholder="intitulé du doctorat" required>
-
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="surname">ETABLISSEMENT DE RATACHEMENT DU DOCTORAT:</label>
-                            <input type="text" class="form-control" name="institute" placeholder="etablissement" required>
-
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="surname">ÉCOLE DOCTORALE:</label>
-                            <input type="text" class="form-control" name="phdSchool" placeholder="école doctorale" required>
-
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="surname">INTITULÉ ET ADRESSE DU LABORATOIRE D'ACCEUIL:</label>
-                            <input type="text" class="form-control" name="nameAddressLaboratory" placeholder="intitulé et addresse du laboratoire d'acceuil" required>
-
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="surname">SUJET DE THÈSE:</label>
-                            <input type="text"  class="form-control w-10 h-50" name="topicPhd" placeholder="sujet de thèse" required>
-                        </div>
-
-
-
-
-
-
-                    </center>
-                    </div>
-                    <button type="button" class="action-button previous previous_button">Back</button>
-                    <button type="button" class="next action-button">Continue</button>
-
-                </fieldset>
-                <fieldset>
-                    <h3>THÈSE EN COTUTELLE</h3>
-                    <center>
-                        <div class="form-group col-md-6">
-                            <label for="name">NOM ET ADRESSE DE L'ÉTABLISSEMENT UNIVERSITAIRE PARTENAIRE</label>
-                            <input type="text"  class="form-control" name="nameAddressUniversity" placeholder="nom et addresse de l'etablissement universitaire partenaire" required>
-
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="surname">NOM ET PRENOM DU RESPONSABLE DE LA FORMATION DOCTORALE DANS L'ÉTABLISSEMENT PARTENAIRE:</label>
-                            <input type="text" class="form-control" name="nameSurnameManagerFormation" placeholder="nom et prenom" required>
-
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="surname">NOM,PRENOM ET GRADE DU DIRECTEUR DE THESE DE L'ETABLISSEMENT PARTENAIRE:</label>
-                            <input type="text" class="form-control" name="nameSurnameManagerThesis" placeholder="nom,prenom,grade" required>
-
-                        </div>
-
-
-
-
-
-
-                    </center>
-                    </div>
-                    <button type="button" class="action-button previous previous_button">Back</button>
-                    <input type="submit" value="valider" class="action-button">
-
-                </fieldset>
-
-
-            </form>
-        </section>
-        <!-- END Multiform HTML -->
-    </article>
-</main>
-
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/12.1.2/js/intlTelInput.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js'></script>
-<script src="js/script.js"></script>
+    function fixStepIndicator(n) {
+        // This function removes the "active" class of all steps...
+        var i, x = document.getElementsByClassName("step");
+        for (i = 0; i < x.length; i++) {
+            x[i].className = x[i].className.replace(" active", "");
+        }
+        //... and adds the "active" class on the current step:
+        x[n].className += " active";
+    }
+</script>
 
 </body>
 </html>

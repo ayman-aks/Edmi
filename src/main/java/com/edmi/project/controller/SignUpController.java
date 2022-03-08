@@ -26,7 +26,7 @@ public class SignUpController
     @RequestMapping("signUpForm")
     public ModelAndView signUpForm(CandidateIdentifier candidateIdentifier, HttpServletRequest request)
     {
-        ModelAndView mv=new ModelAndView("signUp.jsp");
+        ModelAndView mv=new ModelAndView("redirect:/signUp");
         HttpSession session=request.getSession();
         Boolean checkEmail=candidateIdentifierRepository.existsByEmail(candidateIdentifier.getEmail());
         if(checkEmail)

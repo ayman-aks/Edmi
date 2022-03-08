@@ -20,9 +20,10 @@ public class LoginController {
     {
         HttpSession session=request.getSession();
         session.removeAttribute("verifiyEmailCandidate");
-        ModelAndView mv=new ModelAndView("loginCandidate.jsp");
-        return mv;
+        return new ModelAndView("loginCandidate.jsp");
     }
+    @Autowired
+    CandidateIdentifierFormRepository candidateIdentifierFormRepository;//we'll use this to redirect the client into the right page
     @RequestMapping("loginCandidateForm")
     public ModelAndView formLoginCandidate(CandidateConnexion candidateConnexion,HttpServletRequest request)
     {
@@ -31,15 +32,23 @@ public class LoginController {
         if(candidateIdentifier.size()==0)
         {
             mv.addObject("errorStatus","Error");
-            mv.setViewName("loginCandidate.jsp");
+            mv.setViewName("redirect:/loginCandidate");
         }
         else
         {
-            mv.addObject("errorStatus","connexion");
-            mv.setViewName("homeCandidate.jsp");
-            HttpSession session=request.getSession();
-            //System.out.println("Connexion");
-            session.setAttribute("candidateIdentifier",candidateIdentifier);
+            Long checkIdForPage=candidateIdentifier.get(0).getId();
+            if(candidateIdentifierFormRepository.existsById(checkIdForPage)) {
+                mv.addObject("Status", "dashboard");
+                mv.setViewName("redirect:/dashboardCandidate");
+                HttpSession session = request.getSession();
+                session.setAttribute("candidateIdentifier", candidateIdentifier);
+            }
+            else {
+                mv.addObject("Status", "connexion");
+                mv.setViewName("redirect:/homeCandidate");
+                HttpSession session = request.getSession();
+                session.setAttribute("candidateIdentifier", candidateIdentifier);
+            }
         }
         return mv;
     }

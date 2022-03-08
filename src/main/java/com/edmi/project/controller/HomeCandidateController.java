@@ -17,10 +17,31 @@ public class HomeCandidateController
     @Autowired
     CandidateIdentifierFormRepository candidateIdentifierFormRepository;//We will use it to verify if candidate is in Database to mask the form in view
     @RequestMapping("homeCandidate")
-    public ModelAndView homeCandidate()
+    public ModelAndView homeCandidate(HttpSession session)
     {
-        ModelAndView mv=new ModelAndView("homeCandidate.jsp");
+        ModelAndView mv=new ModelAndView();
+        List<CandidateIdentifier> candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
+        if (candidateIdentifier!=null)
+        {
+            Long checkIdForPage=candidateIdentifier.get(0).getId();
+            if(candidateIdentifierFormRepository.existsById(checkIdForPage)) {
+                mv.addObject("Status", "dashboard");
+                mv.setViewName("redirect:/dashboardCandidate");
+            }
+            else {
+                mv.addObject("Status", "connexion");
+                mv.setViewName("redirect:/homeCandidate");
+            }
+        }
+        else{
+            mv.setViewName("redirect:/loginCandidate");
+        }
         return mv;
+    }
+    @RequestMapping("dashboardCandidate")
+    public ModelAndView dashboard()
+    {
+        return new ModelAndView("redirect:homeCandidate");
     }
     @Autowired
     CandidateUniversityCurriculumFormRepository candidateUniversityCurriculumFormRepository;
@@ -48,7 +69,7 @@ public class HomeCandidateController
         candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
         CandidateIdentifier candidateIdentifierFirstElement=candidateIdentifier.get(0);
         candidateIdentifierForm.setId(candidateIdentifierFirstElement.getId());
-        candidateIdentifierForm.setHomeAdress(request.getParameter("homeAdress").toString());
+        candidateIdentifierForm.setHomeAddress(request.getParameter("homeAddress").toString());
         candidateIdentifierForm.setNameWife(request.getParameter("nameWife").toString());
         candidateIdentifierForm.setName(candidateIdentifierFirstElement.getName());
         candidateIdentifierForm.setSurname(candidateIdentifierFirstElement.getSurname());
@@ -89,7 +110,7 @@ public class HomeCandidateController
         cotutellePhdFormRepository.save(cotutellePhdForm);
         phdSoughtFormRepository.save(phdSoughtForm);
         evolutionCandidacyRepository.save(evolutionCandidacy);
-        return new ModelAndView("redirect:/formCandidate.jsp");
+        return new ModelAndView("redirect:formCandidate.jsp");
     }
 
 }

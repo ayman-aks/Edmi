@@ -9,8 +9,7 @@ public class HomeManagerThesis {
     @RequestMapping("homeManagerThesis")
     public ModelAndView homeManagerThesis()
     {
-        ModelAndView mv=new ModelAndView("homeManagerThesis.jsp");
-        return mv;
+        return new ModelAndView("loginCandidate.jsp");
     }
     /*@RequestMapping("acceptCandidacy")
     public ModelAndView accep*/
