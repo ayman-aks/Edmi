@@ -16,11 +16,14 @@ public class LoginController {
     @Autowired
     CandidateConnexionRepository candidateConnexionRepository;
     @RequestMapping("loginCandidate")
-    public ModelAndView loginCandidate(HttpServletRequest request)
+    public ModelAndView loginCandidate(HttpSession session)
     {
-        HttpSession session=request.getSession();
-        session.removeAttribute("verifiyEmailCandidate");
-        return new ModelAndView("loginCandidate.jsp");
+        if (session.getAttribute("candidateIdentifier")!=null){
+            return new ModelAndView("redirect:/homeCandidate");
+        }
+        else {
+            return new ModelAndView("loginCandidate.jsp");
+        }
     }
     @Autowired
     CandidateIdentifierFormRepository candidateIdentifierFormRepository;//we'll use this to redirect the client into the right page

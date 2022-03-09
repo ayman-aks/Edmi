@@ -86,7 +86,7 @@
 <br><br><br>
 <h1 class="container">ECOLE DOCTORALE DE MATHEMATIQUE ET D'INFORMATIQUE</h1>
 
-<form id="regForm" action="" method="">
+<form id="regForm" action="homeCandidateForm" method="POST">
     <h1>FORMULAIRE DE CANDIDATURE:</h1><br><br>
     <div class="tab">
         <h2 class="container-fluid">identification du candidat:</h2>
@@ -94,7 +94,7 @@
         Nom:
         <p><input  type="text" placeholder="nom"  oninput="this.className = ''" name="name" value="${candidateIdentifier.get(0).name}" disabled></p>
         Nom d'epouse:
-        <p><input type="text" placeholder="nom"  oninput="this.className = ''" value="" name="nameWife"></p>
+        <p><input type="text" placeholder="nom"  oninput="this.className = ''" value=" " name="nameWife"></p>
 
 
         Prenom:
@@ -143,11 +143,11 @@
     <div class="tab">
         <h2 class="container-fluid">THESE EN COTUTELLE:</h2>
         Nom et addresse de l'etablissement universitaire partenaire:
-        <p><input type="text" placeholder="nom  addresse" oninput="this.className = ''" value="" name="nameAdressUniversity"></p>
+        <p><input type="text" placeholder="nom  addresse" oninput="this.className = ''" value=" " name="nameAdressUniversity"></p>
         Nom et prenoms du responsable de la formation doctorale dans l'etablissement partenaire:
-        <p><input placeholder="nom prenom" oninput="this.className = ''" name="nameSurnameManagerFormation" value="" type="text"></p>
+        <p><input placeholder="nom prenom" oninput="this.className = ''" name="nameSurnameManagerFormation" value=" " type="text"></p>
         Nom,prenoms et grade du Directeur de these dans l'etablissement partenaire:
-        <p><input placeholder="nom prenom" oninput="this.className = ''" name="nameSurnameManagerThesis" type="text"></p>
+        <p><input placeholder="nom prenom" oninput="this.className = ''" name="nameSurnameManagerThesis" value=" " type="text"></p>
 
     </div>
     <div style="overflow:auto;">

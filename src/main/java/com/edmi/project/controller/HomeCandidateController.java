@@ -9,11 +9,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class HomeCandidateController
 {
+    @Autowired
+    CandidateIdentifierForm candidateIdentifierForm;
+    @Autowired
+    CandidateUniversityCurriculumForm candidateUniversityCurriculumForm;
+    @Autowired
+    CandidateUniversityCurriculumFormRepository candidateUniversityCurriculumFormRepository;
     @Autowired
     CandidateIdentifierFormRepository candidateIdentifierFormRepository;//We will use it to verify if candidate is in Database to mask the form in view
     @RequestMapping("homeCandidate")
@@ -30,7 +38,7 @@ public class HomeCandidateController
             }
             else {
                 mv.addObject("Status", "connexion");
-                mv.setViewName("redirect:/homeCandidate");
+                mv.setViewName("homeCandidate.jsp");
             }
         }
         else{
@@ -38,13 +46,36 @@ public class HomeCandidateController
         }
         return mv;
     }
-    @RequestMapping("dashboardCandidate")
-    public ModelAndView dashboard()
-    {
-        return new ModelAndView("redirect:homeCandidate");
-    }
     @Autowired
-    CandidateUniversityCurriculumFormRepository candidateUniversityCurriculumFormRepository;
+    FileCandidateRepository fileCandidateRepository;
+    @Autowired
+    FileCandidate fileCandidate;
+    @RequestMapping("dashboardCandidate")
+    public ModelAndView dashboard(HttpSession session)
+    {
+        ModelAndView mv= new  ModelAndView();
+        List<CandidateIdentifier> candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
+        if (candidateIdentifier!=null)
+        {
+            Long checkIdForPage=candidateIdentifier.get(0).getId();
+            if (fileCandidateRepository.existsById(checkIdForPage))
+            {
+                session.setAttribute("fileStatus","valid");
+            }
+            else {
+                session.setAttribute("fileStatus","noValid");
+            }
+            candidateIdentifierForm=candidateIdentifierFormRepository.findById(checkIdForPage).orElse(null);
+            candidateUniversityCurriculumForm=candidateUniversityCurriculumFormRepository.findById(checkIdForPage).orElse(null);
+            mv.addObject("candidateIdentifierForm",candidateIdentifierForm);
+            mv.addObject("candidateUniversityCurriculumForm",candidateUniversityCurriculumForm);
+            mv.setViewName("dashboardCandidate.jsp");
+        }
+        else {
+            mv.setViewName("loginCandidate.jsp");
+        }
+        return mv;
+    }
     @Autowired
     CotutellePhdFormRepository cotutellePhdFormRepository;
     @Autowired
@@ -56,16 +87,16 @@ public class HomeCandidateController
     @Autowired
     List<CandidateIdentifier> candidateIdentifier;
     @Autowired
-    CandidateIdentifierForm candidateIdentifierForm;
-    @Autowired
-    CandidateUniversityCurriculumForm candidateUniversityCurriculumForm ;
-    @Autowired
     CotutellePhdForm cotutellePhdForm;
     @Autowired
     PhdSoughtForm phdSoughtForm;
     @RequestMapping("homeCandidateForm")
-    public ModelAndView homeCandidateForm(HttpServletRequest request,HttpSession session)
+    public ModelAndView homeCandidateForm(HttpServletRequest request,HttpSession session) throws IOException
     {
+        if (session.getAttribute("candidateIdentifier")==null)
+        {
+            return new ModelAndView("loginCandidate.jsp");
+        }
         candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
         CandidateIdentifier candidateIdentifierFirstElement=candidateIdentifier.get(0);
         candidateIdentifierForm.setId(candidateIdentifierFirstElement.getId());
@@ -100,17 +131,56 @@ public class HomeCandidateController
         evolutionCandidacy.setId(candidateIdentifierFirstElement.getId());
         evolutionCandidacy.setEvolution(1);
 
-        session.setAttribute("candidateIdentifierForm",candidateIdentifierForm);
-        session.setAttribute("candidateUniversityCurriculumForm",candidateUniversityCurriculumForm);
-        session.setAttribute("phdSoughtForm",phdSoughtForm);
-        session.setAttribute("cotutellePhdForm",cotutellePhdForm);
-
+        try{
         candidateIdentifierFormRepository.save(candidateIdentifierForm);
         candidateUniversityCurriculumFormRepository.save(candidateUniversityCurriculumForm);
         cotutellePhdFormRepository.save(cotutellePhdForm);
         phdSoughtFormRepository.save(phdSoughtForm);
-        evolutionCandidacyRepository.save(evolutionCandidacy);
-        return new ModelAndView("redirect:formCandidate.jsp");
+        evolutionCandidacyRepository.save(evolutionCandidacy);}
+        catch (Exception e) {
+            System.out.println(e);
+    }
+        return new ModelAndView("redirect:/dashboardCandidate");
+    }
+    @RequestMapping("uploadFile")
+    public ModelAndView uploadFile(HttpSession session)
+    {
+        ModelAndView mv=new ModelAndView();
+        List<CandidateIdentifier> candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
+        if (candidateIdentifier!=null)
+        {
+            mv.setViewName("uploadFile.jsp");
+
+        }
+        else{
+            mv.setViewName("redirect:/loginCandidate");
+        }
+        return mv;
+    }
+    @RequestMapping("formCandidate")
+    public ModelAndView formCandidate(HttpSession session)
+    {
+        ModelAndView mv=new ModelAndView("formCandidate.jsp");
+        Optional<CandidateIdentifierForm> candidateIdentifierForm;
+        Optional<CandidateUniversityCurriculumForm> candidateUniversityCurriculumForm;
+        Optional<CotutellePhdForm> cotutellePhdForm;
+        Optional<PhdSoughtForm> phdSoughtForm;
+        List<CandidateIdentifier> candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
+        if (session.getAttribute("candidateIdentifier")==null)
+        {
+            return new ModelAndView("loginCandidate.jsp");
+        }
+        Long checkIdForPage=candidateIdentifier.get(0).getId();
+        candidateIdentifierForm=candidateIdentifierFormRepository.findById(checkIdForPage);
+        candidateUniversityCurriculumForm=candidateUniversityCurriculumFormRepository.findById(checkIdForPage);
+        cotutellePhdForm=cotutellePhdFormRepository.findById(checkIdForPage);
+        phdSoughtForm=phdSoughtFormRepository.findById(checkIdForPage);
+        mv.addObject("candidateIdentifierForm",candidateIdentifierForm);
+        mv.addObject("candidateUniversityCurriculumForm",candidateUniversityCurriculumForm);
+        mv.addObject("phdSoughtForm",phdSoughtForm);
+        mv.addObject("cotutellePhdForm",cotutellePhdForm);
+        System.out.println(candidateIdentifierForm.get().getNameWife());
+        return mv;
     }
 
 }

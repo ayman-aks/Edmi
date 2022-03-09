@@ -25,46 +25,46 @@
             <h3 style="text-align: center; margin-top: 2px">
                 Identifiant du candidat
             </h3>
-            <div style="width: 50%; display: inline-block">Nom:${candidateIdentifierForm.name}</div>
-            <div style="width: 50%; display: inline">Nom d'épouse:${candidateIdentifierForm.nameWife}</div>
-            <div>Prénoms:${candidateIdentifierForm.surname}</div>
-            <div>Adresse domicile:${candidateIdentifierForm.homeAddress}</div>
-            <div style="width: 50%; display: inline-block">Téléphone:${candidateIdentifierForm.phoneNumber}</div>
-            <div style="width: 50%; display: inline">E-mail:${candidateIdentifierForm.email}</div>
+            <div style="width: 50%; display: inline-block">Nom: ${candidateIdentifierForm.get().name}</div>
+            <div style="width: 50%; display: inline">Nom d'épouse: ${candidateIdentifierForm.get().nameWife}</div>
+            <div>Prénoms: ${candidateIdentifierForm.get().surname}</div>
+            <div>Adresse domicile: ${candidateIdentifierForm.get().homeAddress}</div>
+            <div style="width: 50%; display: inline-block">Téléphone: ${candidateIdentifierForm.get().phoneNumber}</div>
+            <div style="width: 50%; display: inline">E-mail: ${candidateIdentifierForm.get().email}</div>
         </div>
         <div class="c2">
             <h3 style="text-align: center; margin-top: 2px">
                 Cursus universitaire du candidat
             </h3>
-            <div style="width: 50%; display: inline-block">Diplome d'accès:${candidateUniversityCurriculumForm.accessDiploma}</div>
-            <div style="width: 50%; display: inline">Spécialité:${candidateUniversityCurriculumForm.speciality}</div>
+            <div style="width: 50%; display: inline-block">Diplome d'accès: ${candidateUniversityCurriculumForm.get().accessDiploma}</div>
+            <div style="width: 50%; display: inline">Spécialité: ${candidateUniversityCurriculumForm.get().speciality}</div>
             <div style="width: 60%; display: inline-block">
-                Université ayant livré le diplome:${candidateUniversityCurriculumForm.university}
+                Université ayant livré le diplome: ${candidateUniversityCurriculumForm.get().university}
             </div>
-            <div style="width: 40%; display: inline">Pays:${candidateUniversityCurriculumForm.country}</div>
+            <div style="width: 40%; display: inline">Pays: ${candidateUniversityCurriculumForm.get().country}</div>
             <div style="width: 60%; display: inline-block">
-                Lieu et date d'obtention du diplome:${candidateUniversityCurriculumForm.placeDiploma} ${candidateUniversityCurriculumForm.dateDiploma}
+                Lieu et date d'obtention du diplome: ${candidateUniversityCurriculumForm.get().placeDiploma} ${candidateUniversityCurriculumForm.get().dateDiploma}
             </div>
-            <div style="width: 40%; display: inline">Mention:${candidateUniversityCurriculumForm.mention}</div>
+            <div style="width: 40%; display: inline">Mention: ${candidateUniversityCurriculumForm.get().mention}</div>
         </div>
         <div class="c2">
             <h3 style="text-align: center; margin-top: 2px">
                 Doctorat auquel le candidat demande son admission
             </h3>
-            <div>Intitulé du doctorat:${phdSoughtForm.entitled}</div>
-            <div>Etablissement de rattachement du doctorat:${phdSoughtForm.institute}</div>
-            <div>Ecole doctorale:${phdSoughtForm.phdSchool}</div>
-            <div>Intitulé et adresse du laboratoire d'accueil:${phdSoughtForm.nameAddressLaboratory}</div>
-            <div>Sujet de thèse:${phdSoughtForm.topicPhd}</div>
+            <div>Intitulé du doctorat: ${phdSoughtForm.get().entitled}</div>
+            <div>Etablissement de rattachement du doctorat: ${phdSoughtForm.get().institute}</div>
+            <div>Ecole doctorale: ${phdSoughtForm.get().phdSchool}</div>
+            <div>Intitulé et adresse du laboratoire d'accueil: ${phdSoughtForm.get().nameAddressLaboratory}</div>
+            <div>Sujet de thèse: ${phdSoughtForm.get().topicPhd}</div>
         </div>
         <div class="c2">
             <h3 style="text-align: center; margin-top: 2px">Thèse en cotutelle</h3>
-            <div>Nom et adresse de l'etablissement universitaire partenaire:${cotutellePhdForm.nameAddressUniversity}</div>
+            <div>Nom et adresse de l'etablissement universitaire partenaire: ${cotutellePhdForm.get().nameAddressUniversity}</div>
             <div>
-                Nom et Prénoms du Responsable de la formation doctorale dans l'établissement partenaire:${cotutellePhdForm.nameSurnameManagerFormation}
+                Nom et Prénoms du Responsable de la formation doctorale dans l'établissement partenaire: ${cotutellePhdForm.get().nameSurnameManagerFormation}
             </div>
             <div>
-                Nom, prénoms et grade du Directeur de thèse dans l'établissement partenaire:${cotutellePhdForm.nameSurnameManagerThesis}
+                Nom, prénoms et grade du Directeur de thèse dans l'établissement partenaire: ${cotutellePhdForm.get().nameSurnameManagerThesis}
             </div>
         </div>
         <div class="c2">
