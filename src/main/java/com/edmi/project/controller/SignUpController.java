@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 
 @Controller
 public class SignUpController
@@ -30,14 +31,16 @@ public class SignUpController
     public ModelAndView signUp(HttpServletRequest request)
     {
         ModelAndView mv=new ModelAndView("signUp.jsp");
-        HttpSession session=request.getSession();
-        session.removeAttribute("verifiyEmailCandidate");
         return mv;
     }
     @RequestMapping("signUpForm")
-    public ModelAndView signUpForm(CandidateIdentifier candidateIdentifier, HttpSession session)
+    public ModelAndView signUpForm(CandidateIdentifier candidateIdentifier, HttpSession session,HttpServletRequest request)
     {
         ModelAndView mv=new ModelAndView("redirect:/signUp");
+        if (request.getParameter("name")==null)
+        {
+            return mv;
+        }
         Boolean checkEmail=candidateIdentifierRepository.existsByEmail(candidateIdentifier.getEmail());
         if(checkEmail)
         {
@@ -73,6 +76,8 @@ public class SignUpController
         {
             CandidateIdentifier candidateIdentifier = candidateIdentifierRepository.findById(token.getCandidateIdentifier().getId()).orElse(new CandidateIdentifier());
             candidateIdentifier.setEnabled(true);
+            File file=new File("fileCandidate/"+candidateIdentifier.getId());
+            file.mkdir();
             candidateIdentifierRepository.save(candidateIdentifier);
             modelAndView.setViewName("loginCandidate");
         }
