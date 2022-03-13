@@ -6,4 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface CandidateIdentifierRepository extends CrudRepository<CandidateIdentifier,Long>
 {
     Boolean existsByEmail(String email);
+    CandidateIdentifier findByEmail(String email);
 }

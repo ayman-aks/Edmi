@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
@@ -25,8 +26,9 @@ public class HomeCandidateController
     @Autowired
     CandidateIdentifierFormRepository candidateIdentifierFormRepository;//We will use it to verify if candidate is in Database to mask the form in view
     @RequestMapping("homeCandidate")
-    public ModelAndView homeCandidate(HttpSession session)
+    public ModelAndView homeCandidate(HttpSession session, HttpServletResponse response)
     {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         ModelAndView mv=new ModelAndView();
         List<CandidateIdentifier> candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
         if (candidateIdentifier!=null)
@@ -51,8 +53,9 @@ public class HomeCandidateController
     @Autowired
     FileCandidate fileCandidate;
     @RequestMapping("dashboardCandidate")
-    public ModelAndView dashboard(HttpSession session)
+    public ModelAndView dashboard(HttpSession session, HttpServletResponse response)
     {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         ModelAndView mv= new  ModelAndView();
         List<CandidateIdentifier> candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
         if (candidateIdentifier!=null)
@@ -91,8 +94,9 @@ public class HomeCandidateController
     @Autowired
     PhdSoughtForm phdSoughtForm;
     @RequestMapping("homeCandidateForm")
-    public ModelAndView homeCandidateForm(HttpServletRequest request,HttpSession session) throws IOException
+    public ModelAndView homeCandidateForm(HttpServletRequest request,HttpSession session, HttpServletResponse response) throws IOException
     {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         if (session.getAttribute("candidateIdentifier")==null)
         {
             return new ModelAndView("loginCandidate.jsp");
@@ -143,8 +147,9 @@ public class HomeCandidateController
         return new ModelAndView("redirect:/dashboardCandidate");
     }
     @RequestMapping("uploadFile")
-    public ModelAndView uploadFile(HttpSession session)
+    public ModelAndView uploadFile(HttpSession session, HttpServletResponse response)
     {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         ModelAndView mv=new ModelAndView();
         List<CandidateIdentifier> candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
         if (candidateIdentifier!=null)
@@ -158,8 +163,9 @@ public class HomeCandidateController
         return mv;
     }
     @RequestMapping("formCandidate")
-    public ModelAndView formCandidate(HttpSession session)
+    public ModelAndView formCandidate(HttpSession session,HttpServletResponse response)
     {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         ModelAndView mv=new ModelAndView("formCandidate.jsp");
         Optional<CandidateIdentifierForm> candidateIdentifierForm;
         Optional<CandidateUniversityCurriculumForm> candidateUniversityCurriculumForm;

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -16,8 +16,9 @@ public class LoginController {
     @Autowired
     CandidateConnexionRepository candidateConnexionRepository;
     @RequestMapping("loginCandidate")
-    public ModelAndView loginCandidate(HttpSession session)
+    public ModelAndView loginCandidate(HttpSession session, HttpServletResponse response)
     {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         if (session.getAttribute("candidateIdentifier")!=null){
             return new ModelAndView("redirect:/homeCandidate");
         }
@@ -28,13 +29,14 @@ public class LoginController {
     @Autowired
     CandidateIdentifierFormRepository candidateIdentifierFormRepository;//we'll use this to redirect the client into the right page
     @RequestMapping("loginCandidateForm")
-    public ModelAndView formLoginCandidate(CandidateConnexion candidateConnexion,HttpServletRequest request)
+    public ModelAndView formLoginCandidate(CandidateConnexion candidateConnexion,HttpSession session, HttpServletResponse response)
     {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         ModelAndView mv=new ModelAndView();
         List<CandidateIdentifier> candidateIdentifier =candidateConnexionRepository.checkConnexion(candidateConnexion.getEmail(),candidateConnexion.getPassword());
         if(candidateIdentifier.size()==0)
         {
-            mv.addObject("errorStatus","Error");
+            session.setAttribute("errorStatus","Compte non retrouvé");
             mv.setViewName("redirect:/loginCandidate");
         }
         else
@@ -43,14 +45,20 @@ public class LoginController {
             if(candidateIdentifierFormRepository.existsById(checkIdForPage)) {
                 mv.addObject("Status", "dashboard");
                 mv.setViewName("redirect:/dashboardCandidate");
-                HttpSession session = request.getSession();
                 session.setAttribute("candidateIdentifier", candidateIdentifier);
             }
             else {
-                mv.addObject("Status", "connexion");
-                mv.setViewName("redirect:/homeCandidate");
-                HttpSession session = request.getSession();
-                session.setAttribute("candidateIdentifier", candidateIdentifier);
+                    if (candidateIdentifier.get(0).getEnabled()==false)
+                    {
+                        session.setAttribute("errorStatus", "Compte non autorisé");
+                        mv.setViewName("redirect:/loginCandidate");
+                    }
+                    else
+                    {
+                        mv.addObject("Status", "connexion");
+                        mv.setViewName("redirect:/homeCandidate");
+                        session.setAttribute("candidateIdentifier", candidateIdentifier);
+                    }
             }
         }
         return mv;

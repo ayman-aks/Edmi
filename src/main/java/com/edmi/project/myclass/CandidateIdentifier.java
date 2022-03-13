@@ -22,6 +22,16 @@ public class CandidateIdentifier {
     private String email;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private Boolean isEnabled=false;
+
+    public Boolean getEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        isEnabled = enabled;
+    }
 
     public String getName() {
         return name;
