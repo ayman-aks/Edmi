@@ -1,7 +1,9 @@
 package com.edmi.project.myclass;
 
-import javax.persistence.*;
+import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
+@Component
 @Entity
 @Table(name = "manager_thesis")
 public class ManagerThesis {
@@ -17,7 +19,16 @@ public class ManagerThesis {
     private String email;
     @Column(nullable = false)
     private String password;
+    @Column(columnDefinition = "TEXT")
+    private String laboratory;
 
+    public String getLaboratory() {
+        return laboratory;
+    }
+
+    public void setLaboratory(String laboratory) {
+        this.laboratory = laboratory;
+    }
     public String getName() {
         return name;
     }

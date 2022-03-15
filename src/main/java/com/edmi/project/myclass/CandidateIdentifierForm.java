@@ -1,15 +1,13 @@
 package com.edmi.project.myclass;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @org.springframework.stereotype.Component
 @Entity
 @Table(name = "candidate_identifier_form")
 public class CandidateIdentifierForm {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Column(nullable = true)

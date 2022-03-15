@@ -84,7 +84,7 @@ public class LoginController {
         else
         {
             mv.addObject("errorStatus","emailValid");
-            mv.setViewName("homeManagerThesis.jsp");
+            mv.setViewName("dashboardadmin.html");
         }
         return mv;
     }

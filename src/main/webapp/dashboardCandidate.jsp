@@ -1,3 +1,5 @@
+<%@ page import="com.edmi.project.myclass.ManagerThesis" %>
+<%@ page import="java.util.List" %>
 <%@page pageEncoding="UTF-8" language="java" contentType="text/html" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,47 +10,55 @@
     <link rel="stylesheet" href="bootstrap.css" />
     <script>
       function showOne(){
-        let v1 = document.getElementById("1");
-        let v2 = document.getElementById("2");
-        let v3 = document.getElementById("3");
-        v1.style.display="block";
-        v2.style.display="none";
-        v3.style.display="none";
-        v1 = document.getElementById("bg1");
-        v2 = document.getElementById("bg2");
-        v3 = document.getElementById("bg3");
-        v1.classList.add("bg-primary");
-        v2.classList.remove("bg-primary");
-        v3.classList.remove("bg-primary");
+        try {
+          let v1 = document.getElementById("1");
+          let v3 = document.getElementById("3");
+          v1.style.display="block";
+          v3.style.display="none";
+          v1 = document.getElementById("bg1");
+          v3 = document.getElementById("bg3");
+          v1.classList.add("bg-primary");
+          v3.classList.remove("bg-primary");
+        }
+        catch (e) {
+          let v1 = document.getElementById("1");
+          v1.style.display="block";
+          v1 = document.getElementById("bg1");
+          v1.classList.add("bg-primary");
+        }
+
       }
       function showTwo(){
-        let v1 = document.getElementById("1");
+
         let v2 = document.getElementById("2");
-        let v3 = document.getElementById("3");
-        v1.style.display="none";
         v2.style.display="block";
-        v3.style.display="none";
-        v1 = document.getElementById("bg1");
         v2 = document.getElementById("bg2");
-        v3 = document.getElementById("bg3");
         v2.classList.add("bg-primary");
-        v1.classList.remove("bg-primary");
-        v3.classList.remove("bg-primary");
+
       }
       function showThree(){
-        let v1 = document.getElementById("1");
-        let v2 = document.getElementById("2");
-        let v3 = document.getElementById("3");
-        v1.style.display="none";
-        v2.style.display="none";
-        v3.style.display="block";
-        v1 = document.getElementById("bg1");
-        v2 = document.getElementById("bg2");
-        v3 = document.getElementById("bg3");
-        v3.classList.add("bg-primary");
-        v2.classList.remove("bg-primary");
-        v1.classList.remove("bg-primary");
+        try {
+          let v1 = document.getElementById("1");
+          let v3 = document.getElementById("3");
+          v1.style.display="none";
+          v3.style.display="block";
+          v1 = document.getElementById("bg1");
+          v3 = document.getElementById("bg3");
+          v3.classList.add("bg-primary");
+          v1.classList.remove("bg-primary");
+        }
+        catch (e)
+        {
+          let v3 = document.getElementById("3");
+          v3.style.display="block";
+          v3 = document.getElementById("bg3");
+          v3.classList.add("bg-primary");
+        }
+
       }
+    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js">
+
     </script>
     <style>
 
@@ -78,6 +88,14 @@
       #3{
         display: none;
       }
+      select {
+        padding: 10px;
+        width: 100%;
+        font-size: 17px;
+        font-family: Raleway;
+        border: 1px solid #aaaaaa;
+        font-family: Arial, Helvetica, sans-serif;
+      }
     </style>
     <title>Home</title>
   </head>
@@ -102,14 +120,16 @@
             </div>
             <%
               try{
-                String check=session.getAttribute("fileStatus").toString();
-                if(check.equals("valid"))  {
+                String checkUpload=session.getAttribute("fileStatus").toString();
+                String checkSubmit=session.getAttribute("candidateSubmit").toString();
+                if(checkUpload.equals("valid"))  {
+                  if (checkSubmit.equals("no valid")){
             %>
             <div class="col container-fluid">
-              <button class="btn btn-outline-success border border-success float-end "><a href="submitCandidate" class="text-dark">Soumettre</a></button>
+              <a href="submitCandidate" class="text-dark"><button class="btn btn-outline-success border border-success float-end ">Soumettre</button></a>
             </div>
             <%
-            }
+            }}
               }
               catch (NullPointerException e) {
                 System.err.println("Caught IOException: " + e.getMessage());}
@@ -121,9 +141,10 @@
               <button class="btn btn-outline-primary border border-primary float-start "><a href="" class="text-dark">Accueil</a></button>
             </div>
             <div class="col container-fluid">
-              <button class="btn  btn-outline-danger border border-danger  float-end">
-                <a href="logOut" class="text-dark">Deconnexion</a>
+              <a href="logOut" class="text-dark"><button class="btn  btn-outline-danger border border-danger  float-end">
+                Deconnexion
               </button>
+              </a>
             </div>
           </div>
         </div>
@@ -149,17 +170,41 @@
         </div>
         <div class="col">
           <div class="row">
-
-            <div class="col lien px-0 bg-primary" id="bg1" onclick="showOne()">
-              <center>Suivi de mon dossier</center>
-            </div>
-            <div class="col  lien px-0" id="bg2" onclick="showTwo()">
-              <center>j'insère mes documents</center>
-            </div>
             <%
               try{
                 String check=session.getAttribute("candidateSubmit").toString();
                 if(check.equals("valid"))  {
+            %>
+            <div class="col lien px-0 bg-primary" id="bg1" onclick="showOne()">
+              <center>Suivi de mon dossier</center>
+            </div>
+            <%
+                }
+              }
+              catch (NullPointerException e) {
+                System.err.println("Caught IOException: " + e.getMessage());}
+            %>
+
+            <%
+              try{
+                String check=session.getAttribute("candidateSubmit").toString();
+                if(check.equals("no valid"))  {
+            %>
+            <div class="col  lien px-0" id="bg2" onclick="showTwo()">
+              <center>j'insère mes documents</center>
+            </div>
+            <%
+                }
+              }
+              catch (NullPointerException e) {
+                System.err.println("Caught IOException: " + e.getMessage());}
+            %>
+
+            <%
+              try{
+                String check=session.getAttribute("candidateSubmit").toString();
+                String checkExistManager=session.getAttribute("managerExist").toString();
+                if(check.equals("valid") && checkExistManager.equals("no valid"))  {
             %>
             <div class="col  lien px-0 " id="bg3" onclick="showThree()">
               <center>Directeur de these</center>
@@ -177,12 +222,24 @@
 
 
           </div><br><br>
+            <%
+              try{
+                String check=session.getAttribute("candidateSubmit").toString();
+                if(check.equals("valid"))  {
+            %>
           <div class="row shadow p-3 mb-5  block" id="1">
             <div class="col  px-0 bg-p">
               <p class="text-success">Dossier en cours de traitement </p>
 
             </div>
           </div>
+            <%
+                }
+              }
+              catch (NullPointerException e) {
+                System.err.println("Caught IOException: " + e.getMessage());}
+            %>
+
           <div class="row shadow p-3 mb-5  block" style="display: none" id="2">
             <div class="col  px-0 bg-p">
               <center>
@@ -203,17 +260,65 @@
             </div>
 
           </div>
+            <%
+              try{
+                String check=session.getAttribute("candidateSubmit").toString();
+                String checkExistManager=session.getAttribute("managerExist").toString();
+                if(check.equals("valid") && checkExistManager.equals("no valid"))  {
+            %>
           <div class="row shadow p-3 mb-5  block" style="display: none" id="3">
-            <div class="col  px-0 bg-p">
-              <center>
-                <p class="text-success">Entrer directeur de theses: </p>
-                <input type="text" name=thesisDirector placeholder="directeur de these">
-                <p class="text-success">Entrer directeur de theses(cotutelle)</p>
-                <input type="text" name=cotutelleThesisDirector placeholder="directeur de these"><br><br>
-                <input type="submit" value="valider" class="btn btn-primary">
-              </center>
-            </div>
+            <form method="post" action="formManagerOfCandidate">
+                  <div class="col  px-0 bg-p">
+                    <center>
+                      <p class="text-success">Choisir le directeur de thèse: </p>
+                      <select
+                              name="managerThesis"
+                      >
+                      <%
+                        List<ManagerThesis> listManagerThesis= (List<ManagerThesis>) session.getAttribute("listManagerThesis");
+                        for (int i=0;i<listManagerThesis.size();i++)
+                        {
+                          session.setAttribute("listManagerThesis",listManagerThesis.get(i).getName()+" "+listManagerThesis.get(i).getSurname());
+                          session.setAttribute("managerId",listManagerThesis.get(i).getId());
+                      %>
+                        <option value="${managerId}" selected="selected">${listManagerThesis}</option>
+                      <%
+
+                          }
+                        session.removeAttribute("listManagerThesis");
+                        session.removeAttribute("managerId");
+                      %>
+                      <input type="submit" value="valider" class="btn btn-primary">
+                    </center>
+
+                  </div>
+            </form>
           </div>
+            <%
+                }
+              }
+              catch (NullPointerException e) {
+                System.err.println("Caught IOException: " + e.getMessage());}
+            %>
+          <script>
+            <%
+              try{
+              String check= session.getAttribute("Status").toString();
+              if(check.equals("Votre Demande sera traité."))
+              {
+              %>
+          function advertisesuccess() {
+          swal("Demande Envoyé", "Merci de vous connecter souvent pour voir l'évolution de votre dossier.", "success");
+          }
+          advertisesuccess();
+          <%
+              session.removeAttribute("Status");}
+              }
+              catch (Exception e){
+              System.err.println(e);
+              }
+              %>
+          </script>
   </body>
 
 </html>

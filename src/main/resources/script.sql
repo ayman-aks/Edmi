@@ -1,0 +1,2 @@
+insert into manager_thesis(email,name,surname,password,laboratory) values("alassane.bah@gmail.com","BAH","Alassane","passer","Laboratoire d'Informatique");
+insert into manager_thesis(email,name,surname,password,laboratory) values("idy.diop@esp.sn","DIOP","Idy","passer","Laboratoire d'Informatique et réseaux Télécoms");

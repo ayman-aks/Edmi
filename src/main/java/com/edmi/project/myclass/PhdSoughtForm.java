@@ -1,14 +1,15 @@
 package com.edmi.project.myclass;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-@org.springframework.stereotype.Component
+import org.springframework.stereotype.Component;
+
+import javax.persistence.*;
+
+@Component
 @Entity
 @Table(name = "phd_sought_Form")
 public class PhdSoughtForm {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Column(nullable = false,columnDefinition = "TEXT")
@@ -69,4 +70,5 @@ public class PhdSoughtForm {
     public void setId(Long id) {
         this.id = id;
     }
+
 }

@@ -7,21 +7,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="bootstrap.css" />
     <style>
-      .roww {
-        height: 55em;
-        width: 55%;
-        border-end-end-radius: 255%;
-        background: rgb(36, 127, 194);
-        display: flex;
-        flex-direction: column;
+      @media screen and (min-width: 464px ) {
+
+        .roww {
+          height: 55em;
+          width: 55%;
+          border-end-end-radius: 255%;
+          background: rgb(36, 127, 194);
+          display: flex;
+          flex-direction: column;
+        }
+        .center-margin {
+          margin-top: -2em;
+        }
+
       }
-      .center-margin {
-        margin-top: -2em;
+      @media screen and (max-width: 464px ) {
+
+        .roww {
+          height: 10em;
+          width: 55%;
+          border-end-end-radius: 255%;
+          border-end-start-radius:255% ;
+          background: rgb(36, 127, 194);
+          display: flex;
+          flex-direction: column;
+        }
+        .person{
+          height:2em;
+          display: none
+        }
+
       }
+
+
+
+
 
       a {
         text-decoration: none;
       }
+
       .logo {
         width: 15em;
         height: 12em;

@@ -3,10 +3,11 @@ package com.edmi.project.controller;
 import com.edmi.project.myclass.*;
 import com.edmi.project.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
+import com.edmi.project.service.EmailSenderService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -61,11 +62,22 @@ public class HomeCandidateController
     FileCandidateRepository fileCandidateRepository;
     @Autowired
     FileCandidate fileCandidate;
+    @Autowired
+    ManagerThesisRepository managerThesisRepository;
+    @Autowired
+    List<ManagerThesis> listManagerThesis;
+    @Autowired
+    PhdSoughtFormRepository phdSoughtFormRepository;
+    @Autowired
+    PhdSoughtForm phdSoughtForm;
+    @Autowired
+    ManagerOfCandidateRepository managerOfCandidateRepository;
     @RequestMapping("dashboardCandidate")
     public ModelAndView dashboard(HttpSession session, HttpServletResponse response)
     {
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         ModelAndView mv= new  ModelAndView();
+
         List<CandidateIdentifier> candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
         if (candidateIdentifier!=null)
         {
@@ -76,6 +88,23 @@ public class HomeCandidateController
             }
             else {
                 session.setAttribute("fileStatus","noValid");
+            }
+            if (candidateIdentifier.get(0).getSubmit())
+            {
+                phdSoughtForm=phdSoughtFormRepository.findById(checkIdForPage).orElse(null);
+                listManagerThesis=managerThesisRepository.findByLaboratory(phdSoughtForm.getNameAddressLaboratory());
+                if (managerOfCandidateRepository.existsByIdCandidate(checkIdForPage))
+                {
+                    session.setAttribute("managerExist","valid");
+                }
+                else {
+                    session.setAttribute("managerExist","no valid");
+                }
+                session.setAttribute("candidateSubmit","valid");
+                session.setAttribute("listManagerThesis",listManagerThesis);
+            }
+            else {
+                session.setAttribute("candidateSubmit","no valid");
             }
             candidateIdentifierForm=candidateIdentifierFormRepository.findById(checkIdForPage).orElse(null);
             candidateUniversityCurriculumForm=candidateUniversityCurriculumFormRepository.findById(checkIdForPage).orElse(null);
@@ -91,8 +120,6 @@ public class HomeCandidateController
     @Autowired
     CotutellePhdFormRepository cotutellePhdFormRepository;
     @Autowired
-    PhdSoughtFormRepository phdSoughtFormRepository;
-    @Autowired
     EvolutionCandidacyRepository evolutionCandidacyRepository;
     @Autowired
     EvolutionCandidacy evolutionCandidacy;
@@ -100,16 +127,14 @@ public class HomeCandidateController
     List<CandidateIdentifier> candidateIdentifier;
     @Autowired
     CotutellePhdForm cotutellePhdForm;
-    @Autowired
-    PhdSoughtForm phdSoughtForm;
     @RequestMapping("homeCandidateForm")
     public ModelAndView homeCandidateForm(HttpServletRequest request,HttpSession session, HttpServletResponse response) throws IOException
     {
         if (session.getAttribute("candidateIdentifier")==null)
         {
-            return new ModelAndView("loginCandidate.jsp");
+            return new ModelAndView("redirect:/loginCandidate");
         }
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        System.out.println(request.getParameter("topicPhd")+"i m here!!!!!!!!!!!");
         candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
         CandidateIdentifier candidateIdentifierFirstElement=candidateIdentifier.get(0);
         candidateIdentifierForm.setId(candidateIdentifierFirstElement.getId());
@@ -132,9 +157,9 @@ public class HomeCandidateController
         phdSoughtForm.setId(candidateIdentifierFirstElement.getId());
         phdSoughtForm.setEntitled(request.getParameter("entitled"));
         phdSoughtForm.setInstitute(request.getParameter("institute"));
-        phdSoughtForm.setPhdSchool(request.getParameter("phdSchool"));
         phdSoughtForm.setTopicPhd(request.getParameter("topicPhd"));
         phdSoughtForm.setNameAddressLaboratory(request.getParameter("nameAddressLaboratory"));
+        System.out.println(phdSoughtForm.getId()+phdSoughtForm.getPhdSchool()+phdSoughtForm.getEntitled()+phdSoughtForm.getInstitute()+phdSoughtForm.getTopicPhd()+phdSoughtForm.getNameAddressLaboratory());
 
         cotutellePhdForm.setId(candidateIdentifierFirstElement.getId());
         cotutellePhdForm.setNameAddressUniversity(request.getParameter("nameAddressUniversity"));
@@ -183,24 +208,72 @@ public class HomeCandidateController
         List<CandidateIdentifier> candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
         if (session.getAttribute("candidateIdentifier")==null)
         {
-            return new ModelAndView("loginCandidate.jsp");
+            return new ModelAndView("redirect:/loginCandidate");
         }
         Long checkIdForPage=candidateIdentifier.get(0).getId();
         candidateIdentifierForm=candidateIdentifierFormRepository.findById(checkIdForPage);
         candidateUniversityCurriculumForm=candidateUniversityCurriculumFormRepository.findById(checkIdForPage);
         cotutellePhdForm=cotutellePhdFormRepository.findById(checkIdForPage);
         phdSoughtForm=phdSoughtFormRepository.findById(checkIdForPage);
-        mv.addObject("candidateIdentifierForm",candidateIdentifierForm);
-        mv.addObject("candidateUniversityCurriculumForm",candidateUniversityCurriculumForm);
-        mv.addObject("phdSoughtForm",phdSoughtForm);
-        mv.addObject("cotutellePhdForm",cotutellePhdForm);
+        session.setAttribute("candidateIdentifierForm",candidateIdentifierForm);
+        session.setAttribute("candidateUniversityCurriculumForm",candidateUniversityCurriculumForm);
+        session.setAttribute("phdSoughtForm",phdSoughtForm);
+        session.setAttribute("cotutellePhdForm",cotutellePhdForm);
         System.out.println(candidateIdentifierForm.get().getNameWife());
         return mv;
     }
+    @Autowired
+    CandidateIdentifierRepository candidateIdentifierRepository;
     @RequestMapping("submitCandidate")
-    public ModelAndView submitCandidate(HttpSession session,HttpServletResponse response)
+    public ModelAndView submitCandidate(HttpSession session,HttpServletResponse response) throws IOException {
+        try {
+            candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
+        }
+        catch (Exception e)
+        {
+            session.removeAttribute("candidateIdentifier");
+            homeCandidate(session,response);
+        }
+        if (session.getAttribute("candidateIdentifier")==null)
+        {
+            return new ModelAndView("redirect:/loginCandidate");
+        }
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        CandidateIdentifier candidateIdentifierVal;
+        candidateIdentifierVal=candidateIdentifierRepository.findById(candidateIdentifier.get(0).getId()).orElse(new CandidateIdentifier());
+        candidateIdentifierVal.setSubmit(true);
+        candidateIdentifierRepository.save(candidateIdentifierVal);
+        return new ModelAndView("redirect:/formCandidate");
+    }
+    @Autowired
+    ManagerOfCandidate managerOfCandidate;
+    @Autowired
+    Optional<ManagerThesis> managerThesis;
+    @Autowired
+    private EmailSenderService emailSenderService;
+    @RequestMapping("formManagerOfCandidate")
+    public ModelAndView formManagerOfCandidate(HttpSession session,HttpServletRequest request,HttpServletResponse response)
     {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        if (session.getAttribute("candidateIdentifier")==null)
+        {
+            return new ModelAndView("redirect:/loginCandidate");
+        }
+        List<CandidateIdentifier> candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
+        managerOfCandidate.setIdCandidate(candidateIdentifier.get(0).getId());
+        managerOfCandidate.setIdManager(Long.parseLong(request.getParameter("managerThesis")));
+        managerThesis=managerThesisRepository.findById(Long.parseLong(request.getParameter("managerThesis")));
+        managerOfCandidateRepository.save(managerOfCandidate);
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(managerThesis.get().getEmail());
+        mailMessage.setSubject("Demande d'encadrement");
+        mailMessage.setFrom("no-reply@edmi.ucad.sn");
+        mailMessage.setText("Bonjour Monsieur "+ managerThesis.get().getName()+" "+ managerThesis.get().getSurname()
+                +"\n\n\nVous avez une demande d'encadrement dans la plateforme de l'école doctorale.\n\n\n\n\n\n ce message est automatique merci de ne pas répondre");
 
+        emailSenderService.sendEmail(mailMessage);
+        session.setAttribute("Status","Votre Demande sera traité.");
+        return new ModelAndView("redirect:/dashboardCandidate");
     }
 
 }

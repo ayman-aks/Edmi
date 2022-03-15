@@ -24,6 +24,16 @@ public class CandidateIdentifier {
     private String password;
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private Boolean isEnabled=false;
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private Boolean submit=false;
+
+    public Boolean getSubmit() {
+        return submit;
+    }
+
+    public void setSubmit(Boolean submit) {
+        this.submit = submit;
+    }
 
     public Boolean getEnabled() {
         return isEnabled;
