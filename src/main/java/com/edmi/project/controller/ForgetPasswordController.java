@@ -30,18 +30,27 @@ public class ForgetPasswordController {
     CandidateIdentifier candidateIdentifier;
     @Autowired
     private EmailSenderService emailSenderService;
-    @RequestMapping("test")
-    public ModelAndView test()
+    @RequestMapping("forgetPasswordCandidate")
+    public ModelAndView test(HttpSession session,HttpServletResponse response)
     {
-        return new ModelAndView("test.jsp");
+        if (session.getAttribute("candidateIdentifier")!=null)
+        {
+            return new ModelAndView("redirect:/homeCandidate");
+        }
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        return new ModelAndView("forgetPasswordCandidate.jsp");
     }
     @RequestMapping("forgetPasswordForm")
     public ModelAndView forgetPassword(CandidateConnexion candidateConnexion, HttpSession session, HttpServletResponse response)
     {
+        if (session.getAttribute("candidateIdentifier")!=null)
+        {
+            return new ModelAndView("redirect:/homeCandidate");
+        }
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         if (candidateConnexion.getEmail()==null)
         {
-            return new ModelAndView("redirect:/loginCandidate");
+            return new ModelAndView("redirect:/forgetPasswordCandidate");
         }
         ModelAndView mv=new ModelAndView();
         Boolean check=candidateIdentifierRepository.existsByEmail(candidateConnexion.getEmail());
@@ -63,16 +72,18 @@ public class ForgetPasswordController {
         }
         else {
             session.setAttribute("Status","Compte non retrouvé");
-            mv.setViewName("redirect:/loginCandidate");
+            mv.setViewName("redirect:/forgetPasswordCandidate");
         }
         return mv;
     }
     @RequestMapping(value="/forget-password", method= {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView confirmUserAccount(ModelAndView modelAndView, @RequestParam("token-password")String confirmationToken,HttpSession session,HttpServletResponse response)
+    public ModelAndView confirmUserAccount(ModelAndView modelAndView,@RequestParam("token-password")String confirmationToken, HttpSession session, HttpServletResponse response)
     {
+        if (session.getAttribute("candidateIdentifier")!=null)
+        {
+            return new ModelAndView("redirect:/homeCandidate");
+        }
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        session.removeAttribute("candidateIdentifier");
-        session.removeAttribute("confirmationToken");
         PasswordToken token = passwordTokenRepository.findByConfirmationToken(confirmationToken);
 
         if(token != null)
@@ -84,6 +95,8 @@ public class ForgetPasswordController {
         }
         else
         {
+            session.removeAttribute("confirmationToken");
+            session.removeAttribute("candidateIdentifier");
             session.setAttribute("Status","The link is invalid or broken!");
             modelAndView.setViewName("redirect:/loginCandidate");
         }
@@ -93,6 +106,10 @@ public class ForgetPasswordController {
     @RequestMapping("forgetPasswordConfirm")
     public ModelAndView forgetPasswordForm(ModelAndView modelAndView,HttpSession session,String password,HttpServletResponse response)
     {
+        if (session.getAttribute("confirmationToken")==null)
+        {
+            return new ModelAndView("redirect:/homeCandidate");
+        }
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         String confirmationToken=null;
         if (session.getAttribute("confirmationToken")!=null)

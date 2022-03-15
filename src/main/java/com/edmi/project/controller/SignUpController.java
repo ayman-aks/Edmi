@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 
@@ -28,14 +29,24 @@ public class SignUpController
     @Autowired
     private EmailSenderService emailSenderService;
     @RequestMapping("signUp")
-    public ModelAndView signUp(HttpServletRequest request)
+    public ModelAndView signUp(HttpServletResponse response,HttpSession session)
     {
+        if (session.getAttribute("candidateIdentifier")!=null)
+        {
+            return new ModelAndView("redirect:homeCandidate");
+        }
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         ModelAndView mv=new ModelAndView("signUp.jsp");
         return mv;
     }
     @RequestMapping("signUpForm")
-    public ModelAndView signUpForm(CandidateIdentifier candidateIdentifier, HttpSession session,HttpServletRequest request)
+    public ModelAndView signUpForm(CandidateIdentifier candidateIdentifier, HttpSession session,HttpServletRequest request,HttpServletResponse response)
     {
+        if (session.getAttribute("candidateIdentifier")!=null)
+        {
+            return new ModelAndView("redirect:homeCandidate");
+        }
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         ModelAndView mv=new ModelAndView("redirect:/signUp");
         if (request.getParameter("name")==null)
         {
@@ -68,23 +79,27 @@ public class SignUpController
         return mv;
     }
     @RequestMapping(value="/confirm-account", method= {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView confirmUserAccount(ModelAndView modelAndView, @RequestParam("token")String confirmationToken)
+    public ModelAndView confirmUserAccount(ModelAndView modelAndView, HttpServletResponse response, @RequestParam("token")String confirmationToken, HttpSession session)
     {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
         if(token != null)
         {
             CandidateIdentifier candidateIdentifier = candidateIdentifierRepository.findById(token.getCandidateIdentifier().getId()).orElse(new CandidateIdentifier());
             candidateIdentifier.setEnabled(true);
+            candidateIdentifierRepository.save(candidateIdentifier);
+            session.removeAttribute("candidateIdentifier");
+            confirmationTokenRepository.delete(token);
             File file=new File("fileCandidate/"+candidateIdentifier.getId());
             file.mkdir();
-            candidateIdentifierRepository.save(candidateIdentifier);
+            session.setAttribute("Status","Votre compte est activé");
             modelAndView.setViewName("loginCandidate");
         }
         else
         {
-            modelAndView.addObject("message","The link is invalid or broken!");
-            modelAndView.setViewName("error");
+            session.setAttribute("Status","The link is invalid or broken!");
+            modelAndView.setViewName("redirect:/loginCandidate");
         }
 
         return modelAndView;

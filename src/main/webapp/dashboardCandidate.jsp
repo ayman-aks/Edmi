@@ -1,195 +1,219 @@
 <%@page pageEncoding="UTF-8" language="java" contentType="text/html" %>
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="userprofile.css">
-    <link rel="stylesheet" href="bootstrap.css">
-    <title>PROFILE DE L'UTILISATEUR</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="bootstrap.css" />
+    <script>
+      function showOne(){
+        let v1 = document.getElementById("1");
+        let v2 = document.getElementById("2");
+        let v3 = document.getElementById("3");
+        v1.style.display="block";
+        v2.style.display="none";
+        v3.style.display="none";
+        v1 = document.getElementById("bg1");
+        v2 = document.getElementById("bg2");
+        v3 = document.getElementById("bg3");
+        v1.classList.add("bg-primary");
+        v2.classList.remove("bg-primary");
+        v3.classList.remove("bg-primary");
+      }
+      function showTwo(){
+        let v1 = document.getElementById("1");
+        let v2 = document.getElementById("2");
+        let v3 = document.getElementById("3");
+        v1.style.display="none";
+        v2.style.display="block";
+        v3.style.display="none";
+        v1 = document.getElementById("bg1");
+        v2 = document.getElementById("bg2");
+        v3 = document.getElementById("bg3");
+        v2.classList.add("bg-primary");
+        v1.classList.remove("bg-primary");
+        v3.classList.remove("bg-primary");
+      }
+      function showThree(){
+        let v1 = document.getElementById("1");
+        let v2 = document.getElementById("2");
+        let v3 = document.getElementById("3");
+        v1.style.display="none";
+        v2.style.display="none";
+        v3.style.display="block";
+        v1 = document.getElementById("bg1");
+        v2 = document.getElementById("bg2");
+        v3 = document.getElementById("bg3");
+        v3.classList.add("bg-primary");
+        v2.classList.remove("bg-primary");
+        v1.classList.remove("bg-primary");
+      }
+    </script>
     <style>
-        button{
-            position: relative;
-            left: 67em;
-            bottom: 2em;
-        }
-        a{
-            text-decoration: none;
-        }
+
+      .contenu {
+        padding-top: 4em;
+      }
+      .lien{
+        border-bottom:0.5px solid gray;
+        padding: 0.6em 0em ;
+        
+      }
+      .lien:hover{
+        border-bottom:2px solid rgb(36, 125, 194);
+        cursor: pointer;
+      }
+      a{
+          text-decoration:none;
+        
+      }
+      a:hover{
+        
+          color: aqua;
+      }
+      #2{
+        display: none;
+      }
+      #3{
+        display: none;
+      }
     </style>
-</head>
+    <title>Home</title>
+  </head>
+  <body>
+    <div class="container ">
+      <div class="row edmi-banner shadow p-3 mb-0 bg-white rounded">
+        <div class="col-4">
+          <div class="container">
+            <img
+              src="img/profile.png"
+              class="container "
+              alt="Profile Picture"
+            />
+          </div>
+        </div>
 
-<body>
-    <div class="container">
-        <div class="main-body">
+        <div class="col">
+          <div class="row mt-5">
+            <div class="col">
+              <h2 class="container p-0" >${candidateIdentifierForm.surname} ${candidateIdentifierForm.name}</h2>
+              <p class="container p-0">Sénégal, ${candidateIdentifierForm.homeAddress}</p>
+            </div>
+            <%
+              try{
+                String check=session.getAttribute("fileStatus").toString();
+                if(check.equals("valid"))  {
+            %>
+            <div class="col container-fluid">
+              <button class="btn btn-outline-success border border-success float-end "><a href="submitCandidate" class="text-dark">Soumettre</a></button>
+            </div>
+            <%
+            }
+              }
+              catch (NullPointerException e) {
+                System.err.println("Caught IOException: " + e.getMessage());}
+            %>
+          </div>
 
-            <nav aria-label="breadcrumb" class="main-breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active" aria-current="page">User Profile</li>
-                    <%
-                        try{
-                            String check=session.getAttribute("fileStatus").toString();
-                            if(check.equals("noValid"))  {
-                    %>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="uploadFile">je soumets mes documents</a></li>
-                    <%
-                    } else {
-                    %>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="formCandidate">Ma demande</a></li>
-                    <%
-                            }}catch (NullPointerException e) {
-                            System.err.println("Caught IOException: " + e.getMessage());}
-                    %>
+          <div class="row mt-5">
+            <div class="col container-fluid ">
+              <button class="btn btn-outline-primary border border-primary float-start "><a href="" class="text-dark">Accueil</a></button>
+            </div>
+            <div class="col container-fluid">
+              <button class="btn  btn-outline-danger border border-danger  float-end">
+                <a href="logOut" class="text-dark">Deconnexion</a>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-0 px-4">
+        <div class="col-4 shadow p-3 mb-5">
+          <p class="container contenu">Nom: ${candidateIdentifierForm.name}</p>
+          <hr />
+          <p class="container">Prenom: ${candidateIdentifierForm.surname}</p>
+          <hr />
+          <p class="container">Email: ${candidateIdentifierForm.email}</p>
+          <hr />
+          <p class="container">Numéro de téléphone: ${candidateIdentifierForm.phoneNumber}</p>
+          <hr />
+          <p class="container">Adresse: ${candidateIdentifierForm.homeAddress}</p>
+          <hr />
+          <h2>Cursus</h2><br>
+          <p class="container">Universite: ${candidateUniversityCurriculumForm.university}</p>
+          <hr />
+          <p class="container">diplome: ${candidateUniversityCurriculumForm.accessDiploma}</p>
+          <hr />
+         
+        </div>
+        <div class="col">
+          <div class="row">
 
-                </ol>
-                <button class="btn btn-primary"><a class="text-white" href="logOut">deconnexion</a></button>
-            </nav>
-
-            <div class="row gutters-sm">
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex flex-column align-items-center text-center">
-                                <img src="img/User-Profile-PNG-Clipart.png" alt="Admin" class="rounded-circle"
-                                    width="150">
-                                <div class="mt-3">
-                                    <h4>${candidateIdentifierForm.surname} ${candidateIdentifierForm.name}</h4>
-                                    <p class="text-secondary mb-1">${candidateUniversityCurriculumForm.accessDiploma}</p>
-                                    <p class="text-muted font-size-sm">${candidateIdentifierForm.homeAddress}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <%
-                        try{
-                            String check=session.getAttribute("fileStatus").toString();
-                            if(check.equals("noValid"))  {
-                    %>
-                    <div class="card mt-3">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <p>Formulaire de candidature</p>
-                                <p class="text-success">complet</p>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <p>diplomes</p>
-                                <p class="text-danger">pas encore soumis</p>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <p>Cirriculum vitae</p>
-                                <p class="text-danger">pas encore soumis</p>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <p class="w-50">Projet de these en quelques pages</p>
-                                <p class="text-danger">Pas encore soumis</p>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <p class="w-50">Convention de cotutelle de thèse</p>
-                                <p class="text-danger">pas encore soumis</p>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <p class="w-50">Attestation de bourse si vous etes boursier</p>
-                                <p class="text-danger">pas encore soumis</p>
-                            </li>
-
-                        </ul>
-                    </div>
-                    <%
-                    } else {
-                    %>
-                    <div class="card mt-3">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <p>Formulaire de candidature</p>
-                                <p class="text-success">complet</p>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <p>diplomes</p>
-                                <p class="text-success">complet</p>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <p>Cirriculum vitae</p>
-                                <p class="text-success">complet</p>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <p class="w-50">Projet de these en quelques pages</p>
-                                <p class="text-success">complet</p>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <p class="w-50">Convention de cotutelle de thèse</p>
-                                <p class="text-success">complet</p>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <p class="w-50">Attestation de bourse si vous etes boursier</p>
-                                <p class="text-success">complet</p>
-                            </li>
-
-                        </ul>
-                    </div>
-                    <%
-                            }}catch (NullPointerException e) {
-                            System.err.println("Caught IOException: " + e.getMessage());}
-                    %>
-                </div>
-                <div class="col-md-8">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Nom:</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    ${candidateIdentifierForm.name}
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Prenom:</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    ${candidateIdentifierForm.surname}
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Telephone:</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    ${candidateIdentifierForm.phoneNumber}
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Email:</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    ${candidateIdentifierForm.email}
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Etablissement de provenance:</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    ${candidateUniversityCurriculumForm.university}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <center><strong>
-                            <p class="text-success"> ETAT DU DOSSIER: EN COURS DE TRAITEMENT</p>
-                        </strong></center>
-
-
-                </div>
+            <div class="col lien px-0 bg-primary" id="bg1" onclick="showOne()">
+              <center>Suivi de mon dossier</center>
+            </div>
+            <div class="col  lien px-0" id="bg2" onclick="showTwo()">
+              <center>j'insère mes documents</center>
+            </div>
+            <%
+              try{
+                String check=session.getAttribute("candidateSubmit").toString();
+                if(check.equals("valid"))  {
+            %>
+            <div class="col  lien px-0 " id="bg3" onclick="showThree()">
+              <center>Directeur de these</center>
+            </div>
+            <%
+                }
+              }
+              catch (NullPointerException e) {
+                System.err.println("Caught IOException: " + e.getMessage());}
+            %>
+            <div class="col  lien px-0 ">
+              <center>Paramètres</center>
             </div>
 
-</body>
+
+
+          </div><br><br>
+          <div class="row shadow p-3 mb-5  block" id="1">
+            <div class="col  px-0 bg-p">
+              <p class="text-success">Dossier en cours de traitement </p>
+
+            </div>
+          </div>
+          <div class="row shadow p-3 mb-5  block" style="display: none" id="2">
+            <div class="col  px-0 bg-p">
+              <center>
+                <p class="text-dark">J'insère mes documents</p>
+                <form action="uploadFileForm" method="POST" enctype="multipart/form-data">
+                  <p>Entrer votre CV:</p>
+                  <input type="file" name="cv" required><br>
+                  <p for="thesisProject">Entrer vos chartes de theses:</p>
+                  <input type="file" name="project" required>
+                  <p>Convention de cotutelle:</p>
+                  <input type="file" name="agreement" required>
+                  <p>Attestation de bourse:</p>
+                  <input type="file" name="scholarship" required><br><br>
+                  <input type="submit" value="valider" class="btn btn-primary">
+
+                </form>
+              </center>
+            </div>
+
+          </div>
+          <div class="row shadow p-3 mb-5  block" style="display: none" id="3">
+            <div class="col  px-0 bg-p">
+              <center>
+                <p class="text-success">Entrer directeur de theses: </p>
+                <input type="text" name=thesisDirector placeholder="directeur de these">
+                <p class="text-success">Entrer directeur de theses(cotutelle)</p>
+                <input type="text" name=cotutelleThesisDirector placeholder="directeur de these"><br><br>
+                <input type="submit" value="valider" class="btn btn-primary">
+              </center>
+            </div>
+          </div>
+  </body>
 
 </html>

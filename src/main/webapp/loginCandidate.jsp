@@ -117,7 +117,7 @@
                   <input type="submit" value="se connecter" class="btn btn-lg  text-white btn-outline-primary" id="btn"
                     style="background: rgb(36, 127, 194)" />
                 </div>
-              <a href="" id="oublie">mot de passe oublié?</a>
+              <a href="forgetPasswordCandidate" id="oublie">mot de passe oublié?</a>
             </center>
           </form>
         </section>
@@ -147,7 +147,54 @@
             }catch (NullPointerException e) {
               System.err.println("Caught IOException: " + e.getMessage());}
           %>
-    
+          <%
+              try{
+              String check= session.getAttribute("Status").toString();
+              if(check.equals("Password Sent"))
+              {
+              %>
+          function advertisesuccess() {
+            swal("Félicitations", "Vérifiez votre boîte email pour changer votre Mot de passe", "success");
+          }
+          advertisesuccess();
+          <%
+          }
+          else if (check.equals("The link is invalid or broken!")){
+          %>
+          function advertisesuccess() {
+            swal("ERREUR!", "Le lien est expiré ou non existant", "error");
+          }
+          advertisesuccess();
+          <%
+          }
+          else if (check.equals("Opération Impossible")){
+          %>
+          function advertisesuccess() {
+            swal("ERREUR!", "Opération Impossible", "error");
+          }
+          advertisesuccess();
+          <%
+          }
+          else if (check.equals("Valid Password")){
+          %>
+          function advertisesuccess() {
+          swal("Félicitations!", "Mot de passe Changé avec succès", "success");
+          }
+          advertisesuccess();
+          <%
+          }
+          else if (check.equals("Votre compte est activé")){
+          %>
+          function advertisesuccess() {
+          swal("Félicitations!", "Votre compte est activé.", "success");
+          }
+          advertisesuccess();
+          <%
+          }
+          session.removeAttribute("Status");
+          }catch (NullPointerException e) {
+          System.err.println("Caught IOException: " + e.getMessage());}
+          %>
    
     
 

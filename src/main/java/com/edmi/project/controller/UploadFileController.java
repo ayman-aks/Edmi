@@ -23,7 +23,9 @@ public class UploadFileController {
     FileCandidate fileCandidate;
     @RequestMapping("uploadFileForm")
     public ModelAndView uploadFileForm(HttpSession session, @RequestParam("cv") MultipartFile multipartFile1, @RequestParam("project") MultipartFile multipartFile2, @RequestParam("agreement") MultipartFile multipartFile3, @RequestParam("scholarship") MultipartFile multipartFile4) throws IOException {
-        System.out.println("I'm here");
+        if (multipartFile1.isEmpty()){
+            return new ModelAndView("redirect:homeCandidate");
+        }
         List<CandidateIdentifier> candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
         fileCandidate.setId(candidateIdentifier.get(0).getId());
         fileCandidate.setCv("cv.pdf");

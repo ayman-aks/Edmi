@@ -46,7 +46,7 @@
               <button
                 class="btn btn-outline-primary border-white text-white rounded-top-bottom"
               >
-                <a href="newform.html" Class="text-white">SE CONNECTER</a>
+                <a href="loginCandidate" Class="text-white">SE CONNECTER</a>
               </button>
             </div>
           </center>
@@ -83,7 +83,7 @@
                         type="password"
                         id="form3Example1c"
                         class="form-control rounded-top-bottom"
-                        name="passwordConfirm"
+                        name="password"
                         style="text-align: center"
                         placeholder="mot de passe"
                         value=""
@@ -97,7 +97,7 @@
                       <input
                         type="password"
                         id="form3Example1c"
-                        name="password"
+                        name="passwordConfirm"
                         class="form-control rounded-top-bottom"
                         style="text-align: center"
                         placeholder="Confirmer mot de passe"

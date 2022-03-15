@@ -30,7 +30,16 @@ public class HomeCandidateController
     {
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         ModelAndView mv=new ModelAndView();
-        List<CandidateIdentifier> candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
+        List<CandidateIdentifier> candidateIdentifier=null;
+        try {
+            candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
+        }
+        catch (Exception e)
+        {
+            session.removeAttribute("candidateIdentifier");
+            homeCandidate(session,response);
+        }
+
         if (candidateIdentifier!=null)
         {
             Long checkIdForPage=candidateIdentifier.get(0).getId();
@@ -96,11 +105,11 @@ public class HomeCandidateController
     @RequestMapping("homeCandidateForm")
     public ModelAndView homeCandidateForm(HttpServletRequest request,HttpSession session, HttpServletResponse response) throws IOException
     {
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         if (session.getAttribute("candidateIdentifier")==null)
         {
             return new ModelAndView("loginCandidate.jsp");
         }
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
         CandidateIdentifier candidateIdentifierFirstElement=candidateIdentifier.get(0);
         candidateIdentifierForm.setId(candidateIdentifierFirstElement.getId());
@@ -146,7 +155,7 @@ public class HomeCandidateController
     }
         return new ModelAndView("redirect:/dashboardCandidate");
     }
-    @RequestMapping("uploadFile")
+    /*@RequestMapping("uploadFile")
     public ModelAndView uploadFile(HttpSession session, HttpServletResponse response)
     {
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -161,7 +170,7 @@ public class HomeCandidateController
             mv.setViewName("redirect:/loginCandidate");
         }
         return mv;
-    }
+    }*/
     @RequestMapping("formCandidate")
     public ModelAndView formCandidate(HttpSession session,HttpServletResponse response)
     {
@@ -187,6 +196,11 @@ public class HomeCandidateController
         mv.addObject("cotutellePhdForm",cotutellePhdForm);
         System.out.println(candidateIdentifierForm.get().getNameWife());
         return mv;
+    }
+    @RequestMapping("submitCandidate")
+    public ModelAndView submitCandidate(HttpSession session,HttpServletResponse response)
+    {
+
     }
 
 }
