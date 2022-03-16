@@ -169,7 +169,7 @@
                   } else {
                 %>
                 function advertisesuccess() {
-      		swal("Félicitations", "vous etes inscrits avec succes! Merci de voir voter boîte Email.", "success");
+      		swal("Félicitations", "vous etes inscrits avec succes! Merci de voir votre boîte Email.", "success");
    		}
     		advertisesuccess();
                 <%

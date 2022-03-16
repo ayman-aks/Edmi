@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="bootstrap.css" />
+  <style>
+    .contenu {
+      padding-top: 4em;
+    }
+
+    .lien {
+      border-bottom: 0.5px solid gray;
+      padding: 0.6em 0em;
+
+    }
+
+    .lien:hover {
+      border-bottom: 2px solid rgb(36, 125, 194);
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
+
+    }
+
+    a:hover {
+
+      color: rgba(26, 198, 241, 0.87);
+    }
+
+    .block {
+      margin-left: 3em;
+    }
+  </style>
+  <title>Home</title>
+</head>
+
+<body>
+  <div class="container ">
+    <div class="row edmi-banner shadow p-3 mb-0 bg-white rounded">
+      <div class="col-4">
+        <div class="container">
+          <img src="./img/User-Profile-PNG-Clipart.png" class="container " alt="" />
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="row mt-5">
+          <div class="col">
+            <h2 class="container p-0">Thierno Diop</h2>
+            <p class="container p-0">Sénégal, Nord Foire</p>
+          </div>
+          <div class="col container-fluid">
+            <button class="btn btn-outline-success border border-success float-end "><a href=""
+                class="text-dark">Soumettre</a></button>
+
+          </div>
+        </div>
+
+        <div class="row mt-5">
+          <div class="col container-fluid ">
+            <button class="btn btn-outline-primary border border-primary float-start "><a href=""
+                class="text-dark">Accueil</a></button>
+          </div>
+          <div class="col container-fluid">
+            <button class="btn  btn-outline-danger border border-danger  float-end">
+              <a href="" class="text-dark">Deconnexion</a>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-0 px-4">
+      <div class="col-4 shadow p-3 mb-5">
+        <p class="container contenu">Nom: Diop</p>
+        <hr />
+        <p class="container">Prenom: Thierno</p>
+        <hr />
+        <p class="container">Email: thierno@esp.sn</p>
+        <hr />
+        <h2>Cursus</h2><br>
+        <p class="container">Universite: UCAD</p>
+        <hr />
+        <p class="container">diplome: Master en informatique</p>
+        <hr />
+
+      </div>
+      <div class="col">
+        <div class="row">
+
+          <div class="col lien px-0 bg-primary">
+            <center><a href="" class="text-white">Suivi de mon dossier</a></center>
+          </div>
+          <div class="col  lien px-0">
+            <center><a href="upload.html"> j'upload mes documents</a></center>
+          </div>
+          <div class="col  lien px-0 ">
+            <center><a href="directeur.html">Directeur de these</a></center>
+          </div>
+          <div class="col  lien px-0 ">
+            <center><a href="">Paramètres</a></center>
+          </div>
+
+
+
+        </div><br><br>
+        <div class="row shadow p-3 mb-5  block">
+          <div class="col  px-0 bg-p">
+            <p class="text-success">Dossier en cours de traitement </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>
