@@ -97,11 +97,9 @@
               <div class="tab">
                 <div class="d-flex flex-row align-items-center mb-4">
                   <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                  <div class="form-outline flex-fill mb-0 input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" aria-label="arobase">@</span>
-                    </div>
-                    <input type="email" id="form3Example1c" class="form-control rounded-top-bottom" name="email"
+                  <div class="form-outline flex-fill mb-0  mb-3">
+                    
+                    <input type="email" id="form3Example1c" class="form-control w-50 rounded-top-bottom" name="email"
                       style="text-align: center" placeholder="user@email" value="" required />
                   </div>
                 </div>
@@ -109,7 +107,7 @@
                 <div class="d-flex flex-row align-items-center mb-4">
                   <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                   <div class="form-outline flex-fill mb-0">
-                    <input type="password" id="form3Example1c" name="password" class="form-control rounded-top-bottom"
+                    <input type="password" id="form3Example1c" name="password" class="form-control w-50 rounded-top-bottom"
                       style="text-align: center" placeholder="mot de passe" value="" required />
                   </div>
                 </div>

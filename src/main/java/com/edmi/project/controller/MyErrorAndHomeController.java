@@ -6,7 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class MyErrorController implements ErrorController {
+public class MyErrorAndHomeController implements ErrorController {
+    @RequestMapping("/")
+    public ModelAndView index()
+    {
+        return new ModelAndView("index.jsp");
+    }
     @RequestMapping("/error")
     public ModelAndView error()
     {

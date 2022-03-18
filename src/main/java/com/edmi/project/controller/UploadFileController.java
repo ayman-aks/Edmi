@@ -28,7 +28,7 @@ public class UploadFileController {
         }
         List<CandidateIdentifier> candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
         fileCandidate.setId(candidateIdentifier.get(0).getId());
-        fileCandidate.setCv("cv.pdf");
+        fileCandidate.setCv("Cv.pdf");
         fileCandidate.setProject("Project.pdf");
         fileCandidate.setAgreement("Agreement.pdf");
         if (multipartFile3==null)

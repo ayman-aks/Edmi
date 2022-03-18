@@ -60,7 +60,7 @@
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js">
 
   </script>
-  <script src="jquery.js"></script>
+  <script src="js/jquery.js"></script>
 
   <title>Connexion</title>
 </head>
@@ -84,7 +84,7 @@
 
 
         <section class="h-50" style="background-color: white; ">
-          <form method="POST" action="loginManagerThesisForm"  class="form mx-1 mx-md-4">
+          <form method="POST" action=""  class="form mx-1 mx-md-4">
             <center>
               <h2>Page de connexion</h2>
               <br /><br />
@@ -158,39 +158,22 @@
       
 
     })
-    /*function actionChange(){
-      
-    if(document.getElementById("selection").value=="Directeur de thèse"){
-        document.getElementByTagName("form").action="/abc";
-
-    }
-   if(document.getElementById("selection").value=="Directeur de laboratoire"){
-      document.myform.action="/a";
-
-    }
-    if(document.getElementById("selection").value=="Responsable du doctorat"){
-      document.getElementByTagName("form").action="/b";
-
-    }
-    if(document.getElementById("selection").value=="Directeur école doctorale"){
-      document.getElementByTagName("form").action="/c";
-
-    }
-    if(document.getElementById("selection").value=="Chef établissement de ratachement"){
-      document.getElementByTagName("form").action="/d";
-
-    }
-  }*/
+    <%
+          try{
+          String check= session.getAttribute("errorStatus").toString();
+              if(check.equals("Error"))  {
+          %>
     function advertisered() {
       swal("ERREUR!", "informations incorrectes", "error");
-
-
-    }
-    function advertisered() {
-      swal("ERREUR!", "informations incorrectes", "warning");
-
     }
     advertisered();
+    <%
+        }
+          session.invalidate();
+          }catch(Exception e){
+          System.err.println(e);
+    }
+%>
 
 
 

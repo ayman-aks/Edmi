@@ -168,7 +168,7 @@
 <div style="padding-bottom: 75px"></div>
 </body>
     <%
-    session.invalidate();
+    session.removeAttribute("candidateIdentifier");
     } catch (Exception e)
     {
         System.err.println(e);

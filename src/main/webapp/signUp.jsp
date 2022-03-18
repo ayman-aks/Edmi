@@ -97,49 +97,47 @@
               <div class="tab">
                 <div class="d-flex flex-row align-items-center mb-4">
                   <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                  <div class="form-outline flex-fill mb-0 input-group ">
-                    <div class="input-group-prepend">
+                  <div class="form-outline flex-fill mb-0 ">
 
-                    </div>
-                    <input type="text" id="form3Example1c" class="form-control rounded-top-bottom" name="name"
+                    <input type="text" id="form3Example1c" class="form-control w-50 rounded-top-bottom" name="name"
                       style="text-align: center" placeholder="nom" value="" required />
-                  </div>
+                    </div>
+
                 </div>
                 <div class="d-flex flex-row align-items-center mb-4">
                   <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                   <div class="form-outline flex-fill mb-0">
-                    <input type="text" id="form3Example1c" name="surname" class="form-control rounded-top-bottom"
+                    <input type="text" id="form3Example1c" name="surname" class="form-control w-50 rounded-top-bottom"
                       style="text-align: center" placeholder="prenom" value="" required />
                   </div>
                 </div>
                 <div class="d-flex flex-row align-items-center mb-4">
                   <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                   <div class="form-outline flex-fill mb-0">
-                    <input type="email" id="form3Example1c" name="email" class="form-control rounded-top-bottom"
+                    <input type="email" id="form3Example1c" name="email" class="form-control w-50 rounded-top-bottom"
                       style="text-align: center" placeholder="user@mail" value="" required />
                   </div>
                 </div>
                 <div class="d-flex flex-row align-items-center mb-4">
                   <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                   <div class="form-outline flex-fill mb-0">
-                    <input type="password" id="password" name="password" class="form-control rounded-top-bottom"
+                    <input type="password" id="password" name="password" class="form-control w-50 rounded-top-bottom"
                       style="text-align: center" placeholder="mot de passe" value="" required />
                   </div>
                 </div>
-                <div class="d-flex flex-row align-items-center mb-4">
+                <div class="d-flex flex-row col-xs-3 align-items-center mb-4">
                   <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                  <div class="form-outline flex-fill mb-0">
-                    <input type="password" id="form3Example1c" class="form-control rounded-top-bottom"
+                  <div class="form-outline col-xs-2 flex-fill mb-0">
+                    <input type="password" id="form3Example1c" class="form-control w-50 rounded-top-bottom"
                       style="text-align: center" placeholder="confirmer mot de passe" id='confirm-password'
-                      onkeypress="checkPassword(this)" required />
+                      onkeyup="checkPassword(this)" required />
                   </div>
                 </div>
                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4 ml-3">
                   <input type="submit" value="se connecter" class="btn btn-lg text-white btn-outline-primary"
                     style="background: rgb(36, 127, 194)" id="btn" />
                 </div>
-                <p class="text-danger" id="message1"></p>
-                <p class="text-success" id="message2"></p>
+                <p  id="message1"></p>
 
               </div>
 
@@ -156,7 +154,7 @@
 
     //}
     //advertiseorange();
-    <%
+   <%
             try{
             String check=session.getAttribute("verifiyEmailCandidate").toString();
             if(check.equals("Exist Email"))  {
@@ -175,16 +173,20 @@
                 <%
                   }}catch (NullPointerException e) {
                   System.err.println("Caught IOException: " + e.getMessage());}
-                %>
+                %> 
     function checkPassword(elem) {
       let password = document.getElementById("password");
 
       if(elem.value != password.value) {
-        document.getElementById("message1").innerHTML = "password doesn't match";
+        document.getElementById("message1").style.color="red";
+
+        document.getElementById("message1").innerHTML = "les mots de passes ne correspondent pas";
         document.getElementById("btn").disabled=true;
         }
       if(elem.value == password.value){
-        document.getElementById("message2").innerHTML = "password  match";
+        document.getElementById("message1").style.color="green";
+
+        document.getElementById("message1").innerHTML = "les mots de passes correspondent ";
         document.getElementById("btn").disabled=false;
       }
     }

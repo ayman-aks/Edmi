@@ -11,10 +11,20 @@ public class ManagerOfCandidate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private Long idCandidate;
     @Column(nullable = false)
     private Long idManager;
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private Boolean decision=false;
+
+    public Boolean getDecision() {
+        return decision;
+    }
+
+    public void setDecision(Boolean decision) {
+        this.decision = decision;
+    }
 
     public Long getIdCandidate() {
         return idCandidate;

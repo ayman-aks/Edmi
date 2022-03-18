@@ -62,15 +62,13 @@ public class SignUpController
         {
             candidateIdentifierRepository.save(candidateIdentifier);
             ConfirmationToken confirmationToken = new ConfirmationToken(candidateIdentifier);
-
             confirmationTokenRepository.save(confirmationToken);
-
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setTo(candidateIdentifier.getEmail());
             mailMessage.setSubject("Valider Votre Inscription dans le site de l'école doctorale");
             mailMessage.setFrom("no-reply@edmi.ucad.sn");
             mailMessage.setText("To confirm your account, please click here : "
-                    +"http://localhost:8080/confirm-account?token="+confirmationToken.getConfirmationToken()+" \n\n\n\n\n ce message est automatique merci de ne pas répondre");
+                    +"http://edmi.ddns.net:8080/confirm-account?token="+confirmationToken.getConfirmationToken()+" \n\n\n\n\n ce message est automatique merci de ne pas répondre");
 
             emailSenderService.sendEmail(mailMessage);
             session.setAttribute("verifiyEmailCandidate","True");

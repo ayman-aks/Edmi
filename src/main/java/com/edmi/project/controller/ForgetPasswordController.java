@@ -64,7 +64,7 @@ public class ForgetPasswordController {
             mailMessage.setSubject("Modifier Votre Mot de passe de votre compte de l'école doctorale");
             mailMessage.setFrom("no-reply@edmi.ucad.sn");
             mailMessage.setText("To confirm your account, please click here : "
-                    +"http://localhost:8080/forget-password?token-password="+passwordToken.getConfirmationToken()+" \n\n\n\n\n ce message est automatique merci de ne pas répondre");
+                    +"http://edmi.ddns.net:8080/forget-password?token-password="+passwordToken.getConfirmationToken()+" \n\n\n\n\n ce message est automatique merci de ne pas répondre");
 
             emailSenderService.sendEmail(mailMessage);
             session.setAttribute("Status","Password Sent");

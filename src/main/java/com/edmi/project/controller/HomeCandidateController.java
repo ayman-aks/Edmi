@@ -120,10 +120,6 @@ public class HomeCandidateController
     @Autowired
     CotutellePhdFormRepository cotutellePhdFormRepository;
     @Autowired
-    EvolutionCandidacyRepository evolutionCandidacyRepository;
-    @Autowired
-    EvolutionCandidacy evolutionCandidacy;
-    @Autowired
     List<CandidateIdentifier> candidateIdentifier;
     @Autowired
     CotutellePhdForm cotutellePhdForm;
@@ -134,16 +130,16 @@ public class HomeCandidateController
         {
             return new ModelAndView("redirect:/loginCandidate");
         }
-        System.out.println(request.getParameter("topicPhd")+"i m here!!!!!!!!!!!");
+
         candidateIdentifier= (List<CandidateIdentifier>) session.getAttribute("candidateIdentifier");
         CandidateIdentifier candidateIdentifierFirstElement=candidateIdentifier.get(0);
         candidateIdentifierForm.setId(candidateIdentifierFirstElement.getId());
-        candidateIdentifierForm.setHomeAddress(request.getParameter("homeAddress").toString());
-        candidateIdentifierForm.setNameWife(request.getParameter("nameWife").toString());
+        candidateIdentifierForm.setHomeAddress(request.getParameter("homeAddress"));
+        candidateIdentifierForm.setNameWife(request.getParameter("nameWife"));
         candidateIdentifierForm.setName(candidateIdentifierFirstElement.getName());
         candidateIdentifierForm.setSurname(candidateIdentifierFirstElement.getSurname());
-        candidateIdentifierForm.setEmail(candidateIdentifierFirstElement.getName());
-        candidateIdentifierForm.setPhoneNumber(request.getParameter("phoneNumber").toString());
+        candidateIdentifierForm.setEmail(candidateIdentifierFirstElement.getEmail());
+        candidateIdentifierForm.setPhoneNumber(request.getParameter("phoneNumber"));
 
         candidateUniversityCurriculumForm.setId(candidateIdentifierFirstElement.getId());
         candidateUniversityCurriculumForm.setAccessDiploma(request.getParameter("accessDiploma"));
@@ -159,22 +155,18 @@ public class HomeCandidateController
         phdSoughtForm.setInstitute(request.getParameter("institute"));
         phdSoughtForm.setTopicPhd(request.getParameter("topicPhd"));
         phdSoughtForm.setNameAddressLaboratory(request.getParameter("nameAddressLaboratory"));
-        System.out.println(phdSoughtForm.getId()+phdSoughtForm.getPhdSchool()+phdSoughtForm.getEntitled()+phdSoughtForm.getInstitute()+phdSoughtForm.getTopicPhd()+phdSoughtForm.getNameAddressLaboratory());
 
         cotutellePhdForm.setId(candidateIdentifierFirstElement.getId());
         cotutellePhdForm.setNameAddressUniversity(request.getParameter("nameAddressUniversity"));
         cotutellePhdForm.setNameSurnameManagerFormation(request.getParameter("nameSurnameManagerFormation"));
         cotutellePhdForm.setNameSurnameManagerThesis(request.getParameter("nameSurnameManagerThesis"));
 
-        evolutionCandidacy.setId(candidateIdentifierFirstElement.getId());
-        evolutionCandidacy.setEvolution(1);
 
         try{
         candidateIdentifierFormRepository.save(candidateIdentifierForm);
         candidateUniversityCurriculumFormRepository.save(candidateUniversityCurriculumForm);
         cotutellePhdFormRepository.save(cotutellePhdForm);
-        phdSoughtFormRepository.save(phdSoughtForm);
-        evolutionCandidacyRepository.save(evolutionCandidacy);}
+        phdSoughtFormRepository.save(phdSoughtForm);}
         catch (Exception e) {
             System.out.println(e);
     }
@@ -219,7 +211,6 @@ public class HomeCandidateController
         session.setAttribute("candidateUniversityCurriculumForm",candidateUniversityCurriculumForm);
         session.setAttribute("phdSoughtForm",phdSoughtForm);
         session.setAttribute("cotutellePhdForm",cotutellePhdForm);
-        System.out.println(candidateIdentifierForm.get().getNameWife());
         return mv;
     }
     @Autowired
